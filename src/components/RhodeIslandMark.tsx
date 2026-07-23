@@ -1,0 +1,21 @@
+export default function RhodeIslandMark() {
+  return (
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 32 32"
+      fill="none"
+      role="img"
+      aria-label="Rhode Island anchor mark"
+    >
+      <rect width="32" height="32" rx="7" fill="#123B66" />
+      <path
+        d="M16 6c-4 4-8 8-8 12.5A8 8 0 0 0 16 26a8 8 0 0 0 8-7.5C24 14 20 10 16 6Z"
+        stroke="#D4A62A"
+        strokeWidth="1.6"
+        fill="none"
+      />
+      <circle cx="16" cy="18.5" r="3" fill="#D4A62A" />
+    </svg>
+  );
+}

@@ -1,0 +1,112 @@
+[
+  {
+    "facility_name": "Block Island Compost",
+    "facility_type": "composting",
+    "address": "16 Old Town Rd, New Shoreham, RI 02807",
+    "latitude": 41.1720384675219,
+    "longitude": -71.56424901268096,
+    "contact_name": "Town of New Shoreham",
+    "contact_phone": "",
+    "contact_email": "",
+    "notes": "Small-scale pilot project. Block Island only — accessible by ferry. Will not be nearest facility for mainland entities."
+  },
+  {
+    "facility_name": "New Shoreham Food Recycling Facility",
+    "facility_type": "composting",
+    "address": "14 W Beach Rd, New Shoreham, RI 02807",
+    "latitude": 41.20877380047818,
+    "longitude": -71.57538230408227,
+    "contact_name": "Town of New Shoreham",
+    "contact_phone": "",
+    "contact_email": "",
+    "notes": "Small-scale pilot project. Block Island only — accessible by ferry. Will not be nearest facility for mainland entities."
+  },
+  {
+    "facility_name": "Michael Bradlee Composting Operation",
+    "facility_type": "composting",
+    "address": "50 Radcliffe Ave, Providence, RI 02908",
+    "latitude": 41.83867312310967,
+    "longitude": -71.43172746171494,
+    "contact_name": "",
+    "contact_phone": "",
+    "contact_email": "",
+    "notes": "Small-scale operation per RIDEM. Verify capacity before presenting as available facility."
+  },
+  {
+    "facility_name": "Richmond Sand and Stone LLC",
+    "facility_type": "composting",
+    "address": "35 Stilson Rd, Wyoming, RI 02898",
+    "latitude": 41.51535714170793,
+    "longitude": -71.68288037522773,
+    "contact_name": "Richmond Sand and Stone",
+    "contact_phone": "",
+    "contact_email": "",
+    "notes": "Active per RIDEM inventory May 4 2026."
+  },
+  {
+    "facility_name": "Rhode Island Bioenergy Facility (ORBIT)",
+    "facility_type": "anaerobic_digestion",
+    "address": "289 Scituate Ave, Johnston, RI 02919",
+    "latitude": 41.806375833340965,
+    "longitude": -71.51558836356686,
+    "contact_name": "",
+    "contact_phone": "",
+    "contact_email": "",
+    "notes": "Only active AD facility in Rhode Island. Primary facility for most mainland entities."
+  },
+  {
+    "facility_name": "EarthCare Farm",
+    "facility_type": "agricultural",
+    "address": "89 County Drive, Charlestown, RI 02813",
+    "latitude": 41.43701950904387,
+    "longitude": -71.6004164463969,
+    "contact_name": "Mike Merner",
+    "contact_phone": "",
+    "contact_email": "",
+    "notes": "Accepts putrescibles (food waste). Permit active — renewed 11/21/2022. Verify still active before presenting to users."
+  },
+  {
+    "facility_name": "Schartner Corner Nursery",
+    "facility_type": "agricultural",
+    "address": "90 Ten Rod Road, Exeter, RI 02822",
+    "latitude": 41.57522054522103,
+    "longitude": -71.52424480405973,
+    "contact_name": "Richard Schartner",
+    "contact_phone": "401-294-2044",
+    "contact_email": "",
+    "notes": "Accepts leaf/yard waste and putrescibles. Permit active — renewed 5/16/2023."
+  },
+  {
+    "facility_name": "Little Rhody Farms",
+    "facility_type": "agricultural",
+    "address": "67 Cucumber Hill Road, Foster, RI 02825",
+    "latitude": 41.76332801926709,
+    "longitude": -71.77701837706246,
+    "contact_name": "Eli Berkowitz",
+    "contact_phone": "401-397-3003 ext 105",
+    "contact_email": "",
+    "notes": "Accepts putrescibles and leaf/yard waste and manure. Permit issued Sept 2023."
+  },
+  {
+    "facility_name": "Greene Farm LLC",
+    "facility_type": "agricultural",
+    "address": "5641 Flat River Road, Greene, RI 02827",
+    "latitude": 41.695848637244225,
+    "longitude": -71.72726397521667,
+    "contact_name": "Mark P. DePasquale",
+    "contact_phone": "",
+    "contact_email": "",
+    "notes": "Accepts leaf/yard waste and manure and putrescibles. No permit date on file — verify status with RIDEM before next quarterly check."
+  },
+  {
+    "facility_name": "Scobco",
+    "facility_type": "agricultural",
+    "address": "380 Tripps Corner Road, Exeter, RI 02822",
+    "latitude": 41.55486261474926,
+    "longitude": -71.60112444561715,
+    "contact_name": "Gregory Allan",
+    "contact_phone": "",
+    "contact_email": "",
+    "notes": "Accepts plant waste and manure and putrescibles. Permit issued May 2025."
+  }
+]
