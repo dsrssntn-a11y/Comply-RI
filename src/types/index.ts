@@ -34,13 +34,36 @@ export interface SubmittedCalculatorValues {
   entityType: EntityType;
   entityLabel: string;
   zip: string;
+  zipCentroid: ZipCentroid;
   tonnage: number;
   threshold: number;
   complianceStatus: ComplianceStatus;
   nearestFacility: NearestFacilityResult | null;
 }
 
+export interface ZipCentroid {
+  lat: number;
+  lon: number;
+}
+
 export interface NearestFacilityResult {
   facility: Facility;
   distanceMiles: number;
+}
+
+export interface HaulerListing {
+  hauler_name: string;
+  verified_service: string;
+  service_area: string;
+  phone: string;
+  email: string;
+  address: string;
+}
+
+export type WeightUnit = "lbs" | "tons";
+
+export interface WasteRecord {
+  id: string;
+  weight: string;
+  unit: WeightUnit;
 }

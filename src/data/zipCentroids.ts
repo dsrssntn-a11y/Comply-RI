@@ -1,9 +1,6 @@
 // RI zip code centroids (02800-02940), sourced from the U.S. Census Bureau
 // 2020 ZCTA Gazetteer file (census.gov/geo/docs/maps-data/data/gazetteer.html).
-export interface ZipCentroid {
-  lat: number;
-  lon: number;
-}
+import type { ZipCentroid } from "../types";
 
 export const RI_ZIP_CENTROIDS: Record<string, ZipCentroid> = {
   "02802": { lat: 41.95213, lon: -71.456233 },

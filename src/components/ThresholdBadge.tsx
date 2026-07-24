@@ -6,11 +6,11 @@ const STATUS_CONFIG: Record<ComplianceStatus, { label: string; className: string
     className: "bg-fog-gray/12 text-fog-gray",
   },
   comply: {
-    label: "Above Threshold — Comply",
+    label: "Above Threshold — Facility Available",
     className: "bg-slate-amber/15 text-slate-amber",
   },
   exempt: {
-    label: "Above Threshold — Exempt",
+    label: "Above Threshold — No Facility Within 15 Miles",
     className: "bg-sea-glass/15 text-sea-glass",
   },
 };

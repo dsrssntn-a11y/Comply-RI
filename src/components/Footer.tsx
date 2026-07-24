@@ -10,17 +10,6 @@ export default function Footer() {
           Sources: R.I. Gen. Laws § 23-18.9-17 · Rhode Island Department of Environmental
           Management (RIDEM) · Rhode Island Resource Recovery Corporation (RIRRC)
         </p>
-        <p>
-          Questions about this tool?{" "}
-          <a
-            href="https://dem.ri.gov"
-            target="_blank"
-            rel="noreferrer"
-            className="underline underline-offset-2 hover:text-bay-blue"
-          >
-            Visit dem.ri.gov
-          </a>
-        </p>
       </div>
     </footer>
   );

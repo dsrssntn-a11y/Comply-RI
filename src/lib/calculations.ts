@@ -1,6 +1,27 @@
 import { haversineDistance } from "./haversine";
-import { RI_ZIP_CENTROIDS, type ZipCentroid } from "../data/zipCentroids";
-import type { ComplianceStatus, Facility, NearestFacilityResult } from "../types";
+import { RI_ZIP_CENTROIDS } from "../data/zipCentroids";
+import type {
+  ComplianceStatus,
+  Facility,
+  NearestFacilityResult,
+  WasteRecord,
+  WeightUnit,
+  ZipCentroid,
+} from "../types";
+
+const POUNDS_PER_TON = 2000;
+
+export function convertToTons(weight: number, unit: WeightUnit): number {
+  return unit === "lbs" ? weight / POUNDS_PER_TON : weight;
+}
+
+export function sumWasteRecordsToTons(records: WasteRecord[]): number {
+  return records.reduce((total, record) => {
+    const weight = Number(record.weight);
+    if (!Number.isFinite(weight) || weight <= 0) return total;
+    return total + convertToTons(weight, record.unit);
+  }, 0);
+}
 
 export function getZipCentroid(zip: string): ZipCentroid | null {
   return RI_ZIP_CENTROIDS[zip] ?? null;

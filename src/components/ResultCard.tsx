@@ -1,5 +1,7 @@
 import Disclaimer from "./Disclaimer";
 import ThresholdBadge from "./ThresholdBadge";
+import ImpactCallout from "./ImpactCallout";
+import FacilityMap from "./FacilityMap";
 import { formatTons } from "../lib/formatters";
 import { FACILITY_SEARCH_RADIUS_MILES } from "../data/facilityRules";
 import type { SubmittedCalculatorValues } from "../types";
@@ -9,7 +11,8 @@ interface ResultCardProps {
 }
 
 export default function ResultCard({ submitted }: ResultCardProps) {
-  const { nearestFacility, complianceStatus, tonnage, threshold, entityLabel } = submitted;
+  const { nearestFacility, complianceStatus, tonnage, threshold, entityLabel, zipCentroid } =
+    submitted;
   const withinRadius = complianceStatus === "comply";
   const showFacility = complianceStatus !== "below" && nearestFacility;
 
@@ -24,6 +27,8 @@ export default function ResultCard({ submitted }: ResultCardProps) {
           <span className="tabular-nums font-semibold">{formatTons(tonnage)}</span> per year
         </p>
       </div>
+
+      {complianceStatus !== "below" ? <ImpactCallout tonnage={tonnage} /> : null}
 
       <div className="space-y-2">
         <ThresholdBadge status={complianceStatus} />
@@ -40,23 +45,10 @@ export default function ResultCard({ submitted }: ResultCardProps) {
           {entityLabel}.
         </p>
 
-        {complianceStatus === "below" ? (
-          <p className="text-sm text-fog-gray">
-            Below Threshold. Not currently required to comply.
-          </p>
-        ) : null}
-
         {complianceStatus === "comply" ? (
           <p className="text-sm text-fog-gray">
-            Above Threshold. Required to comply — see the nearest authorized facility below.
-          </p>
-        ) : null}
-
-        {complianceStatus === "exempt" ? (
-          <p className="text-sm text-fog-gray">
-            Above Threshold — Exempt. No authorized facility is within{" "}
-            {FACILITY_SEARCH_RADIUS_MILES} miles, so the statutory 15-mile exemption applies.
-            This is an intentional provision of the law, not a loophole.
+            An authorized facility is available within {FACILITY_SEARCH_RADIUS_MILES} miles — see
+            the details below to start diverting food waste there.
           </p>
         ) : null}
       </div>
@@ -87,6 +79,21 @@ export default function ResultCard({ submitted }: ResultCardProps) {
               radius)
             </span>
           </p>
+          <p className="text-xs text-fog-gray mt-0.5">
+            Measured as straight-line distance, as the law requires — a map app's driving
+            distance will likely show a different number.
+          </p>
+
+          <div className="mt-3">
+            <FacilityMap
+              userLat={zipCentroid.lat}
+              userLon={zipCentroid.lon}
+              userZip={submitted.zip}
+              facilityLat={nearestFacility.facility.latitude}
+              facilityLon={nearestFacility.facility.longitude}
+              facilityName={nearestFacility.facility.facility_name}
+            />
+          </div>
         </div>
       ) : null}
 

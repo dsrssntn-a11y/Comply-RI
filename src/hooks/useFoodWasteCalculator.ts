@@ -65,6 +65,7 @@ export function useFoodWasteCalculator() {
       entityType,
       entityLabel,
       zip,
+      zipCentroid: centroid,
       tonnage,
       threshold,
       complianceStatus: computeComplianceStatus(tonnage, threshold, facilityWithinRadius),

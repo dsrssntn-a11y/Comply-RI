@@ -49,7 +49,7 @@ export default function SelectField({
         ))}
       </select>
       {error ? (
-        <p id={`${id}-error`} className="mt-1 text-xs text-deep-coral">
+        <p id={`${id}-error`} role="alert" className="mt-1 text-xs text-deep-coral">
           {error}
         </p>
       ) : helperText ? (

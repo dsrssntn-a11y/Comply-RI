@@ -2,9 +2,9 @@ export default function Hero() {
   return (
     <section className="bg-cloud-white border-b border-mist-gray">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        <p className="text-harbor-blue text-base sm:text-lg font-medium">
+        <h1 className="text-harbor-blue text-[26px] sm:text-[32px] leading-tight font-semibold">
           Check your compliance status under the RI Commercial Food Waste Ban.
-        </p>
+        </h1>
         <p className="text-fog-gray text-sm mt-1">
           Estimate annual food waste tonnage with transparent math.
         </p>

@@ -17,12 +17,28 @@ export default function App() {
       <Header
         activeTab={activeTab}
         onTabChange={setActiveTab}
-        onHowItWorksClick={() => setHowItWorksOpen((open) => !open)}
+        howItWorksOpen={howItWorksOpen}
+        onHowItWorksClick={() => {
+          setActiveTab("calculator");
+          setHowItWorksOpen((open) => !open);
+        }}
       />
       <Hero />
       <PageLayout>
-        <HowItWorks open={howItWorksOpen} onClose={() => setHowItWorksOpen(false)} />
-        {activeTab === "calculator" ? <CalculatorForm /> : <HaulerDirectory />}
+        <div
+          id={`tabpanel-${activeTab}`}
+          role="tabpanel"
+          aria-labelledby={`tab-${activeTab}`}
+        >
+          {activeTab === "calculator" ? (
+            <>
+              <HowItWorks open={howItWorksOpen} onClose={() => setHowItWorksOpen(false)} />
+              <CalculatorForm />
+            </>
+          ) : (
+            <HaulerDirectory />
+          )}
+        </div>
       </PageLayout>
       <Footer />
     </div>
