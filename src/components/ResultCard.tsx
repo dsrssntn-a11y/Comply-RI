@@ -122,10 +122,11 @@ export default function ResultCard({
             </span>
           </p>
           <p className="text-xs text-fog-gray mt-0.5">
-            Measured as straight-line distance from{" "}
-            {locationSource === "exact-address" ? "your exact address" : "your zip code's center point"},
-            as the law requires — a map app's driving distance will likely show a different
-            number.
+            Measured as straight-line distance ("as the crow flies"), as the law requires — not
+            driving distance, so a map app will likely show a different number.{" "}
+            {locationSource === "exact-address"
+              ? "This result uses your exact address."
+              : "This result uses your zip code's center point as an estimate of your location — for a more precise result, enter your exact address above."}
           </p>
 
           <div className="mt-3">
