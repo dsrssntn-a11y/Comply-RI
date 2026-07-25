@@ -5,8 +5,11 @@
   --color-primary: #123B66;
   --color-accent: #D4A62A;
   --color-secondary: #2F6FAB;
-  --color-success: #2E8B7D;
-  --color-warning: #C98A2B;
+  /* Darkened from the original design spec (#2E8B7D / #C98A2B) to meet WCAG
+     2.1 AA 4.5:1 text contrast — the original shades measured 2.5-4.1:1 when
+     used as status-chip/label text, confirmed via automated axe-core audit. */
+  --color-success: #22685D;
+  --color-warning: #8F5A14;
   --color-error: #B94A48;
   --color-muted: #5F6B7A;
 }
@@ -37,5 +40,38 @@
   .hero-strip {
     padding-top: 32px;
     padding-bottom: 32px;
+  }
+}
+
+/* Leaf icon entrance — plays a few times when the impact result appears,
+   giving time to notice it after scrolling down to the result. Kept
+   subtle (small rotation, soft glow) to stay in line with a civic tone. */
+@keyframes leaf-pop {
+  0% {
+    transform: scale(0.8) rotate(-10deg);
+    filter: drop-shadow(0 0 0 rgba(34, 197, 94, 0));
+  }
+  35% {
+    transform: scale(1.15) rotate(8deg);
+    filter: drop-shadow(0 0 5px rgba(34, 197, 94, 0.7));
+  }
+  60% {
+    transform: scale(0.97) rotate(-3deg);
+    filter: drop-shadow(0 0 3px rgba(34, 197, 94, 0.4));
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 0 rgba(34, 197, 94, 0));
+  }
+}
+
+.leaf-pop-animation {
+  animation: leaf-pop 1.1s ease-out 3;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leaf-pop-animation {
+    animation: none;
   }
 }

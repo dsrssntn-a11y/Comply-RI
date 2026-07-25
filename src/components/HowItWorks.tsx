@@ -77,6 +77,29 @@ export default function HowItWorks({ open, onClose }: HowItWorksProps) {
 
       <div>
         <p className="text-xs font-semibold text-harbor-blue uppercase tracking-wide mb-1">
+          Tipping-fee waiver
+        </p>
+        <p>
+          Entities in the higher-education (52-ton) or all-other-generators (104-ton) categories
+          may also qualify for a separate waiver under{" "}
+          <a
+            href="https://webserver.rilegislature.gov/Statutes/TITLE23/23-18.9/23-18.9-17.htm"
+            target="_blank"
+            rel="noreferrer"
+            className="underline underline-offset-2 hover:text-bay-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bay-blue/50 rounded"
+          >
+            § 23-18.9-17(c)
+          </a>{" "}
+          if the tipping fee RIRRC charges for regular commercial waste is lower than the fee
+          charged by every composting or anaerobic digestion facility within 15 miles — the
+          director must grant the waiver upon that showing. This tool can't calculate that,
+          since tipping-fee data isn't publicly compiled; contact RIDEM directly to inquire. This
+          waiver does not apply to the K–12 / educational-entity (30-ton) category.
+        </p>
+      </div>
+
+      <div>
+        <p className="text-xs font-semibold text-harbor-blue uppercase tracking-wide mb-1">
           15-mile facility condition
         </p>
         <p>

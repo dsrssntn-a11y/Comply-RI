@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageLayout from "./layout";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
@@ -12,11 +12,27 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<TabId>("calculator");
   const [howItWorksOpen, setHowItWorksOpen] = useState(false);
 
+  useEffect(() => {
+    if (!howItWorksOpen) return;
+    requestAnimationFrame(() => {
+      document.getElementById("how-it-works-panel")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  }, [howItWorksOpen]);
+
   return (
     <div className="min-h-screen flex flex-col bg-cloud-white">
       <Header
         activeTab={activeTab}
-        onTabChange={setActiveTab}
+        onTabChange={(tab) => {
+          setActiveTab(tab);
+          // HowItWorks only renders inside the calculator tab — close it when
+          // navigating away so aria-controls/aria-expanded on this button
+          // never reference an unmounted element.
+          if (tab !== "calculator") setHowItWorksOpen(false);
+        }}
         howItWorksOpen={howItWorksOpen}
         onHowItWorksClick={() => {
           setActiveTab("calculator");
@@ -33,7 +49,10 @@ export default function App() {
           {activeTab === "calculator" ? (
             <>
               <HowItWorks open={howItWorksOpen} onClose={() => setHowItWorksOpen(false)} />
-              <CalculatorForm onNavigateToHaulers={() => setActiveTab("haulers")} />
+              <CalculatorForm
+                onNavigateToHaulers={() => setActiveTab("haulers")}
+                onOpenHowItWorks={() => setHowItWorksOpen(true)}
+              />
             </>
           ) : (
             <HaulerDirectory />

@@ -4,4 +4,6 @@ export const COPY = {
   taglineFull: "RhodeWaste...less. One calculation at a time.",
   heroStatement: "Find out if your organization is subject to Rhode Island's Commercial Food Waste Ban — in under two minutes.",
   civicTrustLine: "Estimate annual food waste tonnage with transparent math.",
+  shareCommitment: "Share",
+  shareCopied: "Copied to clipboard",
 };

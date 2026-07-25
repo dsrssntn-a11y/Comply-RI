@@ -53,13 +53,13 @@ export default function WasteRecordsCalculator({ onTotalChange }: WasteRecordsCa
               onChange={(e) => updateRecord(record.id, { weight: e.target.value })}
               placeholder="Weight"
               aria-label={`Record ${index + 1} weight`}
-              className="flex-1 min-w-0 rounded-lg border border-mist-gray bg-surface-white px-2.5 py-1.5 text-sm text-harbor-blue focus:outline-none focus:ring-2 focus:ring-bay-blue/40"
+              className="flex-1 min-w-0 rounded-lg border border-field-border bg-surface-white px-2.5 py-1.5 text-sm text-harbor-blue focus:outline-none focus:ring-2 focus:ring-bay-blue/40"
             />
             <select
               value={record.unit}
               onChange={(e) => updateRecord(record.id, { unit: e.target.value as WeightUnit })}
               aria-label={`Record ${index + 1} unit`}
-              className="rounded-lg border border-mist-gray bg-surface-white px-2 py-1.5 text-sm text-harbor-blue focus:outline-none focus:ring-2 focus:ring-bay-blue/40"
+              className="rounded-lg border border-field-border bg-surface-white px-2 py-1.5 text-sm text-harbor-blue focus:outline-none focus:ring-2 focus:ring-bay-blue/40"
             >
               <option value="lbs">lbs</option>
               <option value="tons">tons</option>

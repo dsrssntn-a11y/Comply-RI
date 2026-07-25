@@ -4,16 +4,22 @@ import InputField from "./InputField";
 import Disclaimer from "./Disclaimer";
 import ResultCard from "./ResultCard";
 import WasteRecordsCalculator from "./WasteRecordsCalculator";
+import { STATUS_LABELS } from "./ThresholdBadge";
 import { ENTITY_TYPE_OPTIONS } from "../lib/constants";
+import { formatTons } from "../lib/formatters";
 import { useFoodWasteCalculator } from "../hooks/useFoodWasteCalculator";
 
 type TonnageMode = "direct" | "records";
 
 interface CalculatorFormProps {
   onNavigateToHaulers: () => void;
+  onOpenHowItWorks: () => void;
 }
 
-export default function CalculatorForm({ onNavigateToHaulers }: CalculatorFormProps) {
+export default function CalculatorForm({
+  onNavigateToHaulers,
+  onOpenHowItWorks,
+}: CalculatorFormProps) {
   const { values, errors, submitted, setField, handleSubmit } = useFoodWasteCalculator();
   const [tonnageMode, setTonnageMode] = useState<TonnageMode>("direct");
 
@@ -92,8 +98,23 @@ export default function CalculatorForm({ onNavigateToHaulers }: CalculatorFormPr
         </button>
       </div>
 
+      {/* Persistent live region — kept in the DOM at all times so screen
+          readers reliably announce it when a result appears, rather than
+          relying on a live region that's itself newly mounted. */}
+      <div aria-live="polite" role="status" className="sr-only">
+        {submitted
+          ? `Result: ${STATUS_LABELS[submitted.complianceStatus]}. ${formatTons(
+              submitted.tonnage
+            )} entered against a ${formatTons(submitted.threshold)} threshold.`
+          : ""}
+      </div>
+
       {submitted ? (
-        <ResultCard submitted={submitted} onNavigateToHaulers={onNavigateToHaulers} />
+        <ResultCard
+          submitted={submitted}
+          onNavigateToHaulers={onNavigateToHaulers}
+          onOpenHowItWorks={onOpenHowItWorks}
+        />
       ) : null}
     </div>
   );

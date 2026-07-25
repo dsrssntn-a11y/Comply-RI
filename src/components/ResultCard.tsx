@@ -4,6 +4,7 @@ import ThresholdBadge from "./ThresholdBadge";
 import ImpactCallout from "./ImpactCallout";
 import FacilityMap from "./FacilityMap";
 import HaulerSuggestionModal from "./HaulerSuggestionModal";
+import WaiverNoticeModal from "./WaiverNoticeModal";
 import { formatTons } from "../lib/formatters";
 import { FACILITY_SEARCH_RADIUS_MILES } from "../data/facilityRules";
 import type { SubmittedCalculatorValues } from "../types";
@@ -11,18 +12,31 @@ import type { SubmittedCalculatorValues } from "../types";
 interface ResultCardProps {
   submitted: SubmittedCalculatorValues;
   onNavigateToHaulers: () => void;
+  onOpenHowItWorks: () => void;
 }
 
-export default function ResultCard({ submitted, onNavigateToHaulers }: ResultCardProps) {
+export default function ResultCard({
+  submitted,
+  onNavigateToHaulers,
+  onOpenHowItWorks,
+}: ResultCardProps) {
   const { nearestFacility, complianceStatus, tonnage, threshold, entityLabel, zipCentroid } =
     submitted;
   const withinRadius = complianceStatus === "comply";
   const showFacility = complianceStatus !== "below" && nearestFacility;
+  const waiverEligible =
+    complianceStatus === "comply" &&
+    (submitted.entityType === "higher_ed" || submitted.entityType === "other");
 
   const [showHaulerPopup, setShowHaulerPopup] = useState(complianceStatus === "exempt");
   useEffect(() => {
     setShowHaulerPopup(complianceStatus === "exempt");
   }, [submitted, complianceStatus]);
+
+  const [showWaiverPopup, setShowWaiverPopup] = useState(waiverEligible);
+  useEffect(() => {
+    setShowWaiverPopup(waiverEligible);
+  }, [submitted, waiverEligible]);
 
   return (
     <div className="max-w-[640px] mx-auto mt-4 bg-surface-white border border-mist-gray rounded-xl shadow-sm p-6 space-y-4">
@@ -36,7 +50,13 @@ export default function ResultCard({ submitted, onNavigateToHaulers }: ResultCar
         </p>
       </div>
 
-      {complianceStatus !== "below" ? <ImpactCallout tonnage={tonnage} /> : null}
+      {complianceStatus !== "below" ? (
+        <ImpactCallout
+          key={`${submitted.zip}-${submitted.tonnage}-${submitted.entityType}`}
+          tonnage={tonnage}
+          shareable={complianceStatus === "comply"}
+        />
+      ) : null}
 
       <div className="space-y-2">
         <ThresholdBadge status={complianceStatus} />
@@ -113,6 +133,15 @@ export default function ResultCard({ submitted, onNavigateToHaulers }: ResultCar
         onViewHaulers={() => {
           setShowHaulerPopup(false);
           onNavigateToHaulers();
+        }}
+      />
+
+      <WaiverNoticeModal
+        open={showWaiverPopup}
+        onDismiss={() => setShowWaiverPopup(false)}
+        onCheckWaiverPath={() => {
+          setShowWaiverPopup(false);
+          onOpenHowItWorks();
         }}
       />
     </div>
