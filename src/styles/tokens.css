@@ -10,3 +10,32 @@
   --color-error: #B94A48;
   --color-muted: #5F6B7A;
 }
+
+/* Typography — Hero */
+.hero-statement {
+  font-size: 16px;
+  color: #123B66;
+}
+
+.civic-trust {
+  font-size: 14px;
+  color: #5F6B7A;
+}
+
+/* Hero section wrapper — not part of the pasted spec, added so .hero-strip
+   isn't unstyled. Horizontal centering is handled by the inner
+   max-w-5xl/px-4/sm:px-6 div in Hero.tsx (matching Header.tsx exactly, so
+   the two rows of text line up); this rule only owns background/vertical
+   spacing. */
+.hero-strip {
+  background-color: #F8FAFC;
+  border-bottom: 1px solid #D8E1EA;
+  padding: 24px 0;
+}
+
+@media (min-width: 640px) {
+  .hero-strip {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+}

@@ -1,4 +1,4 @@
-# Comply RI — Food Waste Threshold Tool
+# RhodeWaste — Organics Navigator
 ## Project README for Claude Code
 **Version 1.1 | Build: MVP Prototype**
 
@@ -28,7 +28,7 @@ A two-tab, single-page web application that helps Rhode Island municipal and ins
 ## File Structure
 
 ```
-Comply-RI-food-waste-calculator/
+RhodeWaste-Organics-Navigator/
 ├── public/
 │   ├── favicon.svg
 │   └── og-image.png
@@ -73,8 +73,8 @@ Comply-RI-food-waste-calculator/
 │   │   └── components.css
 │   └── types/
 │       └── index.ts
-├── complyri_facilities.json
-├── complyri_facilities.csv
+├── rhodewaste_facilities.json
+├── rhodewaste_facilities.csv
 ├── index.html
 ├── package.json
 └── README.md
@@ -91,7 +91,7 @@ Comply-RI-food-waste-calculator/
 - **calculations.ts** — unit conversion and annual tonnage math
 - **thresholds.ts** — Rhode Island statutory rule values in one place
 - **haversine.ts** — straight-line distance calculation in miles
-- **facilities.ts** — facility dataset parsed from complyri_facilities.json
+- **facilities.ts** — facility dataset parsed from rhodewaste_facilities.json
 - **HowItWorks.tsx** — collapsible explanation panel for transparency
 - **RhodeIslandMark.tsx** — small civic brand element, anchor or RI outline
 - **HaulerDirectory.tsx** — Tab 2, hauler directory with header disclaimer
@@ -149,7 +149,7 @@ Comply-RI-food-waste-calculator/
 
 ### Header (slim, white background)
 - Left: small anchor mark or RI outline (RhodeIslandMark.tsx)
-- Center-left: tool name — Comply RI
+- Center-left: tool name — RhodeWaste — Organics Navigator
 - Right: one subtle link — "How it works"
 
 ### Hero strip
@@ -214,7 +214,7 @@ Hauler data to be populated when RIRRC and RIFPC verification is complete. Build
 
 ### Step 3 — Check 15-mile facility condition
 
-Using haversine formula, calculate straight-line distance from user zip code centroid to each facility in complyri_facilities.json.
+Using haversine formula, calculate straight-line distance from user zip code centroid to each facility in rhodewaste_facilities.json.
 
 - One or more facilities within 15 miles → **Above Threshold. Required to comply.** Show nearest facility.
 - No facility within 15 miles → **Above Threshold — Exempt.** Show 15-mile statutory exemption. Do not call this a loophole — it is an intentional statutory provision.
@@ -338,10 +338,10 @@ Build and verify these three before the prototype is considered complete.
 
 | File | Contents |
 |---|---|
-| complyri_facilities.json | 10 authorized facilities with coordinates, type, contact, notes |
-| complyri_facilities.csv | Same data in CSV format for manual maintenance |
+| rhodewaste_facilities.json | 10 authorized facilities with coordinates, type, contact, notes |
+| rhodewaste_facilities.csv | Same data in CSV format for manual maintenance |
 | RI_Compliance_Tool_Concept_Doc.md | Full project concept and scope |
-| ComplyRI_Maintenance_Notes.md | Data sources, update schedule, legal and security requirements |
+| RhodeWaste_Maintenance_Notes.md | Data sources, update schedule, legal and security requirements |
 
 ---
 
@@ -353,4 +353,4 @@ https://webserver.rilegislature.gov/Statutes/TITLE23/23-18.9/23-18.9-17.htm
 ---
 
 *Scope: Rhode Island only | Status: MVP build | Primary prototype scenario: CCRI (02886)*
-*README version 1.1 — updated to TypeScript, two-tab layout, design specs incorporated*
+*README version 1.2 — tool renamed to RhodeWaste — Organics Navigator, tagline added*

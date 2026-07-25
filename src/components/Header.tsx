@@ -1,4 +1,5 @@
 import RhodeIslandMark from "./RhodeIslandMark";
+import { COPY } from "../data/copy";
 import type { TabId } from "../types";
 import { TABS } from "../app/routes";
 
@@ -21,19 +22,22 @@ export default function Header({
   return (
     <header className="bg-surface-white border-b border-mist-gray">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center gap-2.5">
+        <div className="flex items-center justify-between py-3 gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
             <RhodeIslandMark />
-            <span className="text-harbor-blue font-semibold text-lg tracking-tight">
-              Comply RI
-            </span>
+            <div className="min-w-0">
+              <h1 className="text-harbor-blue font-semibold text-xl sm:text-2xl tracking-tight truncate">
+                {COPY.toolName}
+              </h1>
+              <p className="text-fog-gray text-xs sm:text-sm truncate">{COPY.taglineFull}</p>
+            </div>
           </div>
           <button
             type="button"
             onClick={onHowItWorksClick}
             aria-expanded={howItWorksOpen}
             aria-controls="how-it-works-panel"
-            className={`text-sm text-bay-blue hover:text-harbor-blue underline underline-offset-2 transition-colors ${FOCUS_RING}`}
+            className={`shrink-0 text-sm text-bay-blue hover:text-harbor-blue underline underline-offset-2 transition-colors ${FOCUS_RING}`}
           >
             How it works
           </button>

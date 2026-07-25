@@ -58,6 +58,7 @@ export interface HaulerListing {
   phone: string;
   email: string;
   address: string;
+  website: string;
 }
 
 export type WeightUnit = "lbs" | "tons";

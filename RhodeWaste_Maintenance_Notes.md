@@ -1,11 +1,11 @@
-# Comply RI — Food Waste Threshold Tool: Maintenance Notes
+# RhodeWaste — Organics Navigator: Maintenance Notes
 **Version 1.0 | For internal use and institutional handoff**
 
 ---
 
 ## Purpose
 
-This document outlines how to keep the Comply RI tool accurate and current after launch. It is written for both the original maintainer and any institutional partner (RIDEM, RIFPC) who may take over the tool in a future version.
+This document outlines how to keep the RhodeWaste tool accurate and current after launch. It is written for both the original maintainer and any institutional partner (RIDEM, RIFPC) who may take over the tool in a future version.
 
 ---
 

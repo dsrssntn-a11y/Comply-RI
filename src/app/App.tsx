@@ -33,7 +33,7 @@ export default function App() {
           {activeTab === "calculator" ? (
             <>
               <HowItWorks open={howItWorksOpen} onClose={() => setHowItWorksOpen(false)} />
-              <CalculatorForm />
+              <CalculatorForm onNavigateToHaulers={() => setActiveTab("haulers")} />
             </>
           ) : (
             <HaulerDirectory />

@@ -6,7 +6,7 @@ export default function RhodeIslandMark() {
       viewBox="0 0 32 32"
       fill="none"
       role="img"
-      aria-label="Comply RI leaf mark"
+      aria-label="RhodeWaste leaf mark"
     >
       <rect width="32" height="32" rx="7" fill="#123B66" />
       <path

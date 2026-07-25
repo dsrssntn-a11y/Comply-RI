@@ -1,20 +1,28 @@
+import { useEffect, useState } from "react";
 import Disclaimer from "./Disclaimer";
 import ThresholdBadge from "./ThresholdBadge";
 import ImpactCallout from "./ImpactCallout";
 import FacilityMap from "./FacilityMap";
+import HaulerSuggestionModal from "./HaulerSuggestionModal";
 import { formatTons } from "../lib/formatters";
 import { FACILITY_SEARCH_RADIUS_MILES } from "../data/facilityRules";
 import type { SubmittedCalculatorValues } from "../types";
 
 interface ResultCardProps {
   submitted: SubmittedCalculatorValues;
+  onNavigateToHaulers: () => void;
 }
 
-export default function ResultCard({ submitted }: ResultCardProps) {
+export default function ResultCard({ submitted, onNavigateToHaulers }: ResultCardProps) {
   const { nearestFacility, complianceStatus, tonnage, threshold, entityLabel, zipCentroid } =
     submitted;
   const withinRadius = complianceStatus === "comply";
   const showFacility = complianceStatus !== "below" && nearestFacility;
+
+  const [showHaulerPopup, setShowHaulerPopup] = useState(complianceStatus === "exempt");
+  useEffect(() => {
+    setShowHaulerPopup(complianceStatus === "exempt");
+  }, [submitted, complianceStatus]);
 
   return (
     <div className="max-w-[640px] mx-auto mt-4 bg-surface-white border border-mist-gray rounded-xl shadow-sm p-6 space-y-4">
@@ -98,6 +106,15 @@ export default function ResultCard({ submitted }: ResultCardProps) {
       ) : null}
 
       <Disclaimer variant="output" />
+
+      <HaulerSuggestionModal
+        open={showHaulerPopup}
+        onDismiss={() => setShowHaulerPopup(false)}
+        onViewHaulers={() => {
+          setShowHaulerPopup(false);
+          onNavigateToHaulers();
+        }}
+      />
     </div>
   );
 }

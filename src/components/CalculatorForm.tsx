@@ -9,7 +9,11 @@ import { useFoodWasteCalculator } from "../hooks/useFoodWasteCalculator";
 
 type TonnageMode = "direct" | "records";
 
-export default function CalculatorForm() {
+interface CalculatorFormProps {
+  onNavigateToHaulers: () => void;
+}
+
+export default function CalculatorForm({ onNavigateToHaulers }: CalculatorFormProps) {
   const { values, errors, submitted, setField, handleSubmit } = useFoodWasteCalculator();
   const [tonnageMode, setTonnageMode] = useState<TonnageMode>("direct");
 
@@ -88,7 +92,9 @@ export default function CalculatorForm() {
         </button>
       </div>
 
-      {submitted ? <ResultCard submitted={submitted} /> : null}
+      {submitted ? (
+        <ResultCard submitted={submitted} onNavigateToHaulers={onNavigateToHaulers} />
+      ) : null}
     </div>
   );
 }

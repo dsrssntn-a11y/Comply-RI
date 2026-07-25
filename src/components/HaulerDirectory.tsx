@@ -1,7 +1,17 @@
 import { HAULERS } from "../data/haulers";
 import type { HaulerListing } from "../types";
 
-function ContactLine({ label, value, href }: { label: string; value: string; href?: string }) {
+function ContactLine({
+  label,
+  value,
+  href,
+  external,
+}: {
+  label: string;
+  value: string;
+  href?: string;
+  external?: boolean;
+}) {
   const isMissing = value === "Not listed";
   return (
     <p className="text-sm">
@@ -11,6 +21,8 @@ function ContactLine({ label, value, href }: { label: string; value: string; hre
       ) : (
         <a
           href={href}
+          target={external ? "_blank" : undefined}
+          rel={external ? "noreferrer" : undefined}
           className="text-bay-blue hover:text-harbor-blue underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bay-blue/50 rounded"
         >
           {value}
@@ -25,6 +37,7 @@ function HaulerCard({ hauler }: { hauler: HaulerListing }) {
     ? `tel:${hauler.phone.replace(/[^\d+]/g, "")}`
     : undefined;
   const emailHref = hauler.email !== "Not listed" ? `mailto:${hauler.email}` : undefined;
+  const websiteHref = hauler.website !== "Not listed" ? `https://${hauler.website}` : undefined;
 
   return (
     <div className="bg-surface-white border border-mist-gray rounded-xl p-4">
@@ -39,6 +52,7 @@ function HaulerCard({ hauler }: { hauler: HaulerListing }) {
         <ContactLine label="Phone" value={hauler.phone} href={phoneHref} />
         <ContactLine label="Email" value={hauler.email} href={emailHref} />
         <ContactLine label="Address" value={hauler.address} />
+        <ContactLine label="Website" value={hauler.website} href={websiteHref} external />
       </div>
     </div>
   );

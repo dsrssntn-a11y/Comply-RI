@@ -1,4 +1,4 @@
-# Comply RI — Food Waste Threshold Tool: Concept Document
+# RhodeWaste — Organics Navigator: Concept Document
 **Version 1.0 | Project Seed Phase**
 
 ---
@@ -138,7 +138,7 @@ Each scenario produces a complete, accurate output with real facility and hauler
 
 - [ ] Confirm complete authorized facility list and coordinates from RIDEM
 - [ ] Confirm CET dataset currency — date last updated
-- [x] Tool name confirmed: Comply RI — Food Waste Threshold Tool
+- [x] Tool name confirmed: RhodeWaste — Organics Navigator
 - [x] Decide impact metric display format — callout number (X tons) with supporting text
 - [ ] Draft legal disclaimer language
 
