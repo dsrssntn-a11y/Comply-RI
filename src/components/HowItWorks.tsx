@@ -80,8 +80,8 @@ export default function HowItWorks({ open, onClose }: HowItWorksProps) {
           Tipping-fee waiver
         </p>
         <p>
-          Entities in the higher-education (52-ton) or all-other-generators (104-ton) categories
-          may also qualify for a separate waiver under{" "}
+          Entities in the higher-education (52-ton) or commercial/institutional (104-ton)
+          categories may also qualify for a separate waiver under{" "}
           <a
             href="https://webserver.rilegislature.gov/Statutes/TITLE23/23-18.9/23-18.9-17.htm"
             target="_blank"

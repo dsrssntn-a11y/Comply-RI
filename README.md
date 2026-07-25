@@ -205,7 +205,7 @@ Hauler data to be populated when RIRRC and RIFPC verification is complete. Build
 |---|---|
 | Higher education and research institutions | 52 tons/year |
 | Other educational entities (K–12) | 30 tons/year |
-| All other generators (municipal, institutional) | 104 tons/year |
+| Commercial/institutional entity (specific enumerated list — see § 23-18.9-7(19)) | 104 tons/year |
 
 ### Step 2 — Compare user tonnage to threshold
 
@@ -278,12 +278,13 @@ Build and verify these three before the prototype is considered complete.
 - Annual tonnage: 18 tons
 - Expected: Below threshold (30 tons). Not required to comply.
 
-### Scenario 3 — Municipal building (Exempt)
-- Entity type: All other generators
+### Scenario 3 — Hospital (Exempt)
+- Entity type: Commercial/institutional entity
 - Zip code: 02837 (Little Compton, RI)
 - Annual tonnage: 120 tons
 - Expected: Above threshold (104 tons). No facility of any kind (mainland or Block Island) within 15 miles — nearest is ~18.9 miles. Exempt under statutory 15-mile provision.
 - Note: 02807 (Block Island) was the originally proposed zip for this scenario, but verification against the full facility dataset (including Block Island Compost and New Shoreham Food Recycling Facility, both ~1-2 miles from that zip's centroid) showed it actually resolves to **Comply**, not Exempt — island-based entities do have a qualifying facility within 15 miles. 02837 was substituted as a zip with a genuine 15-mile gap from every facility in the dataset.
+- Note on entity choice (Jul 2026): this scenario originally used "Municipal building" as the example. Swapped to "Hospital" after verifying R.I. Gen. Laws § 23-18.9-7(19) — "covered entity" is a specific enumerated list (commercial food wholesaler/distributor, industrial food manufacturer/processor, supermarket, resort/conference center, banquet hall, restaurant, religious institution, military installation, prison, corporation, hospital or other medical care institution, casino), not a general municipal/institutional catch-all. A hospital is unambiguously on that list; whether a generic municipal office building is covered at all is not settled by the statute's text (it may qualify only if "corporation" is read to include municipal corporations). See the app's "See exact legal definitions" and "Important things to know" for the full disclosure of this ambiguity.
 
 ---
 

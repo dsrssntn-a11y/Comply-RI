@@ -6,6 +6,8 @@ import ResultCard from "./ResultCard";
 import WasteRecordsCalculator from "./WasteRecordsCalculator";
 import { STATUS_LABELS } from "./ThresholdBadge";
 import { ENTITY_TYPE_OPTIONS } from "../lib/constants";
+import { ENTITY_DEFINITIONS } from "../data/entityDefinitions";
+import { ENTITY_THRESHOLDS } from "../data/thresholds";
 import { formatTons } from "../lib/formatters";
 import { useFoodWasteCalculator } from "../hooks/useFoodWasteCalculator";
 
@@ -14,31 +16,79 @@ type TonnageMode = "direct" | "records";
 interface CalculatorFormProps {
   onNavigateToHaulers: () => void;
   onOpenHowItWorks: () => void;
+  onOpenImportantToKnow: () => void;
 }
 
 export default function CalculatorForm({
   onNavigateToHaulers,
   onOpenHowItWorks,
+  onOpenImportantToKnow,
 }: CalculatorFormProps) {
   const { values, errors, submitted, isGeocoding, setField, handleSubmit } =
     useFoodWasteCalculator();
   const [tonnageMode, setTonnageMode] = useState<TonnageMode>("direct");
   const [addressMode, setAddressMode] = useState(false);
+  const [definitionsOpen, setDefinitionsOpen] = useState(false);
 
   return (
     <div>
       <h2 className="sr-only">Compliance Calculator</h2>
       <div className="max-w-[640px] mx-auto bg-surface-white border border-mist-gray rounded-xl shadow-sm p-6 space-y-5">
-        <SelectField
-          id="entity-type"
-          label="Entity type"
-          helperText="Choose the category that best describes your organization."
-          error={errors.entityType}
-          value={values.entityType}
-          options={ENTITY_TYPE_OPTIONS}
-          placeholder="Select entity type"
-          onChange={(value) => setField("entityType", value as typeof values.entityType)}
-        />
+        <div>
+          <SelectField
+            id="entity-type"
+            label="Entity type"
+            helperText="Choose the category that best describes your organization."
+            error={errors.entityType}
+            value={values.entityType}
+            options={ENTITY_TYPE_OPTIONS}
+            placeholder="Select entity type"
+            onChange={(value) => setField("entityType", value as typeof values.entityType)}
+          />
+
+          <button
+            type="button"
+            onClick={() => setDefinitionsOpen((open) => !open)}
+            className="mt-1.5 text-xs text-bay-blue hover:text-harbor-blue underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bay-blue/50 rounded"
+          >
+            {definitionsOpen
+              ? "Hide exact legal definitions"
+              : "Not sure which category applies? See exact legal definitions"}
+          </button>
+
+          {definitionsOpen ? (
+            <div className="mt-2 space-y-3 rounded-xl border border-mist-gray bg-cloud-white p-3">
+              {ENTITY_DEFINITIONS.map((def) => {
+                const optionLabel = ENTITY_TYPE_OPTIONS.find(
+                  (option) => option.value === def.value
+                )?.label;
+                return (
+                  <div key={def.value}>
+                    <p className="text-xs font-semibold text-harbor-blue tabular-nums">
+                      {ENTITY_THRESHOLDS[def.value]} tons/year — {optionLabel}
+                    </p>
+                    <p className="text-xs text-fog-gray mt-0.5">
+                      {def.statutoryTerm} means {def.definition} (
+                      <a
+                        href={def.citationUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline underline-offset-2 hover:text-bay-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bay-blue/50 rounded"
+                      >
+                        {def.citationLabel}
+                      </a>
+                      ).
+                    </p>
+                    <p className="text-xs text-fog-gray mt-0.5">{def.measuredAt}</p>
+                    {def.note ? (
+                      <p className="text-xs text-slate-amber mt-0.5">{def.note}</p>
+                    ) : null}
+                  </div>
+                );
+              })}
+            </div>
+          ) : null}
+        </div>
 
         <div>
           <InputField
@@ -158,6 +208,7 @@ export default function CalculatorForm({
           submitted={submitted}
           onNavigateToHaulers={onNavigateToHaulers}
           onOpenHowItWorks={onOpenHowItWorks}
+          onOpenImportantToKnow={onOpenImportantToKnow}
         />
       ) : null}
     </div>

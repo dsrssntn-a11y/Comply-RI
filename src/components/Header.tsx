@@ -8,6 +8,8 @@ interface HeaderProps {
   onTabChange: (tab: TabId) => void;
   onHowItWorksClick: () => void;
   howItWorksOpen: boolean;
+  onImportantToKnowClick: () => void;
+  importantToKnowOpen: boolean;
 }
 
 const FOCUS_RING =
@@ -18,6 +20,8 @@ export default function Header({
   onTabChange,
   onHowItWorksClick,
   howItWorksOpen,
+  onImportantToKnowClick,
+  importantToKnowOpen,
 }: HeaderProps) {
   return (
     <header className="bg-surface-white border-b border-mist-gray">
@@ -32,15 +36,26 @@ export default function Header({
               <p className="text-fog-gray text-xs sm:text-sm truncate">{COPY.taglineFull}</p>
             </div>
           </div>
-          <button
-            type="button"
-            onClick={onHowItWorksClick}
-            aria-expanded={howItWorksOpen}
-            aria-controls="how-it-works-panel"
-            className={`shrink-0 text-sm text-bay-blue hover:text-harbor-blue underline underline-offset-2 transition-colors ${FOCUS_RING}`}
-          >
-            How it works
-          </button>
+          <div className="shrink-0 flex items-center gap-3">
+            <button
+              type="button"
+              onClick={onHowItWorksClick}
+              aria-expanded={howItWorksOpen}
+              aria-controls="how-it-works-panel"
+              className={`text-sm text-bay-blue hover:text-harbor-blue underline underline-offset-2 transition-colors ${FOCUS_RING}`}
+            >
+              How it works
+            </button>
+            <button
+              type="button"
+              onClick={onImportantToKnowClick}
+              aria-expanded={importantToKnowOpen}
+              aria-controls="important-to-know-panel"
+              className={`text-sm text-bay-blue hover:text-harbor-blue underline underline-offset-2 transition-colors ${FOCUS_RING}`}
+            >
+              Important things to know
+            </button>
+          </div>
         </div>
         <nav aria-label="Main tabs" role="tablist" className="flex gap-1 -mb-px">
           {TABS.map((tab) => {

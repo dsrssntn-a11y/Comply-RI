@@ -27,13 +27,13 @@ If no authorized facility exists within 15 miles, the tool states clearly that t
 
 ## Who It's For
 
-Rhode Island municipal and institutional entities subject to the food waste ban.
+Rhode Island entities subject to the food waste ban, as defined by R.I. Gen. Laws § 23-18.9-7 — the commercial/institutional category is a specific enumerated list, not a general municipal/institutional catch-all (see the table below).
 
 | Entity Type | Tonnage Threshold |
 |---|---|
 | Higher education and research institutions | 52 tons/year |
 | Other educational entities (K–12) | 30 tons/year |
-| All other generators (municipal, institutional) | 104 tons/year |
+| Commercial/institutional entity (specific enumerated list — see § 23-18.9-7(19)) | 104 tons/year |
 
 **Primary scenario for prototype:** Community College of Rhode Island (higher education, 52-ton threshold)
 
@@ -128,7 +128,7 @@ No user data is collected, stored, or transmitted. All inputs are session-only a
 A working prototype that runs three scenarios end-to-end:
 1. A Community College of RI campus — above threshold, facility within 15 miles
 2. A K–12 school — below threshold (educational, honest result)
-3. A municipal building — above threshold, no facility within 15 miles (exempt result)
+3. A hospital — above threshold, no facility within 15 miles (exempt result)
 
 Each scenario produces a complete, accurate output with real facility and hauler data.
 

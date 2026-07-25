@@ -1,5 +1,5 @@
 # RhodeWaste — Organics Navigator: Maintenance Notes
-**Version 1.1 | For internal use and institutional handoff**
+**Version 1.2 | For internal use and institutional handoff**
 
 ---
 
@@ -29,9 +29,21 @@ The tool is built on the following statutory and regulatory sources. These must 
 
 **How to check for statutory changes:** Visit webserver.rilegislature.gov and search § 23-18.9-17 directly. Look for any amendments to tonnage thresholds, entity definitions, or the 15-mile condition. If the statute changes, the calculator logic must be updated before the next user session.
 
-**Last verified against the primary source:** July 2026. Pulled the full verbatim text directly from webserver.rilegislature.gov (not a summary or a secondary source) and confirmed subsections (a)–(d) match the tool's thresholds exactly: 104 tons (a, all other generators), 52 tons (b, higher-ed/covered educational institutions), 30 tons (d, K–12/educational entities, effective 2023). No amendments since P.L. 2021, ch. 344 & 345 (effective September 1, 2021).
+**Last verified against the primary source:** July 2026. Pulled the full verbatim text directly from webserver.rilegislature.gov (not a summary or a secondary source) and confirmed subsections (a)–(d) match the tool's thresholds exactly: 104 tons (a, covered entities), 52 tons (b, higher-ed/covered educational institutions), 30 tons (d, K–12/educational entities, effective 2023). No amendments since P.L. 2021, ch. 344 & 345 (effective September 1, 2021).
 
 **Subsection (c) — a waiver provision the tool discloses but does not calculate.** The statute includes a mandatory waiver: *"The director shall grant a waiver of the requirements of subsections (a) and (b) upon a showing that the tipping fee charged by [RIRRC] for non-contract commercial sector waste is less than the fee charged for organic-waste material by each composting facility or anaerobic digestion facility located within fifteen (15) miles of the covered entity's location."* This applies only to the 104-ton and 52-ton categories, not the 30-ton K–12 category (added later, in a separate subsection). The tool cannot calculate eligibility for this — RIRRC/facility tipping-fee data isn't publicly compiled anywhere (confirmed during the Project Seed Checklist's own "confirm data exists" research). It's disclosed to users via a popup + a How It Works section (§ 23-18.9-17(c), cited with a direct link) whenever a result would otherwise be "Facility Available" in an eligible category, directing them to RIDEM to inquire.
+
+---
+
+## Entity Category Accuracy — Findings From the July 2026 Compliance Audit
+
+A deeper pass against the primary statutory text (§ 23-18.9-7 definitions and § 23-18.9-18) surfaced three things the tool previously got imprecise or omitted entirely. All three are now addressed in-app; documented here so the reasoning isn't lost.
+
+**1. The 104-ton category is a specific enumerated list, not a general catch-all.** § 23-18.9-7(19) defines "covered entity" as: *"each commercial food wholesaler or distributor, industrial food manufacturer or processor, supermarket, resort or conference center, banquet hall, restaurant, religious institution, military installation, prison, corporation, hospital or other medical care institution, and casino."* The tool's label for this category previously read "All other generators (municipal, institutional)" — implying any municipal or institutional entity above 104 tons is covered, which overstates the statute. Relabeled to "Commercial or institutional entity" (`src/lib/constants.ts`), and the app now surfaces the full verbatim list via a "See exact legal definitions" toggle on the calculator (`src/data/entityDefinitions.ts`, rendered in `CalculatorForm.tsx`). Whether "corporation" includes a municipal corporation isn't settled by the statute's text — flagged in-app as something to confirm with RIDEM rather than silently assumed either way. The README's Scenario 3 test case was also swapped from "Municipal building" to "Hospital" for the same reason (an unambiguous list member).
+
+**2. The 52-ton higher-ed threshold is measured per building, not campus-wide.** § 23-18.9-17(b) and § 23-18.9-7(21) attach the 52-ton threshold to each "covered educational facility" — a building or group of interconnected buildings — not an institution's total organic waste across a whole campus. The calculator asks for one aggregate tonnage figure and compares it directly to 52 tons, which only matches the statute exactly when that figure represents one qualifying building/cluster rather than a campus-wide sum. This is now disclosed in the new "Important things to know" panel (`src/components/ImportantToKnow.tsx`) and as an inline caveat on higher-ed results above threshold (`ResultCard.tsx`). Not fixed at the calculation level — doing so would require asking users to enter waste per building, a larger UX change intentionally left for a future iteration rather than done silently.
+
+**3. The § 23-18.9-18 recordkeeping/reporting requirement was previously undisclosed.** Separate from the diversion requirement, covered entities and covered educational institutions (not K–12) must keep written records of solid waste generated and organics recycled, and make them available to RIDEM on request. This existed in the statute the whole time but had zero mention anywhere in the tool. Now disclosed in "Important things to know" and as an inline note on relevant results.
 
 ---
 
@@ -128,7 +140,7 @@ Current permitted farms accepting food waste from outside sources:
 These requirements must be met before the tool goes live and verified after any update to the statutory source.
 
 - The calculator must reproduce statutory threshold logic exactly: entity type → annual tonnage → 15-mile condition, in that order
-- Entity type definitions must match the statute: higher education and research institutions (52 tons), other educational entities/K–12 (30 tons), all other generators (104 tons)
+- Entity type definitions must match the statute: higher education and research institutions (52 tons), other educational entities/K–12 (30 tons), commercial/institutional covered entities per the § 23-18.9-7(19) enumerated list (104 tons)
 - The 15-mile distance must be calculated as straight-line radius using the haversine formula — not driving distance
 - The facility lookup must use only currently authorized facilities with active RIDEM status — proposed, expired, or closed facilities must be excluded
 - The hauler/service provider directory must be clearly separated from the compliance determination output — users must not be able to confuse contact listings with a legal compliance result
@@ -214,6 +226,8 @@ If this tool is handed off to RIDEM or RIFPC for ongoing maintenance, a non-tech
 | Jul 2026 | Added an optional "exact address" precision mode (Nominatim geocoding) alongside the default zip-centroid method, since the statute measures from the entity's actual location, not a zip code. Falls back to zip-centroid on any lookup failure. See External Dependencies and the Geocoding note above. | [Your Name] |
 | Jul 2026 | Added a share feature (native Web Share API + clipboard fallback) for above-threshold results, and Open Graph / Twitter Card social-preview tags. | [Your Name] |
 | Jul 2026 | First formal WCAG 2.1 AA accessibility audit — automated (axe-core) + manual keyboard/focus testing across every page state. Fixed: insufficient text contrast on status-chip colors, a focus-trap gap in both popup dialogs, a dangling ARIA reference on tab switch, missing status announcements for screen readers on calculation results, and insufficient border contrast on form controls. 0 violations as of this audit. See Accessibility Compliance above. | [Your Name] |
+| Jul 2026 | Fixed a wording bug where the 15-mile distance disclosure implied the law requires zip-centroid measurement (it only requires straight-line vs. driving distance — zip-centroid is the tool's own default approximation). | [Your Name] |
+| Jul 2026 | Second compliance audit against primary statutory text (§ 23-18.9-7, § 23-18.9-18) found three gaps: the 104-ton category's label overstated the statute's specific enumerated "covered entity" list; the 52-ton higher-ed threshold is legally measured per building, not campus-wide; and the § 23-18.9-18 recordkeeping requirement was undisclosed. Added a "See exact legal definitions" toggle on the calculator (verbatim statutory text per category) and a new "Important things to know" panel covering all three. Relabeled the 104-ton category from "All other generators (municipal, institutional)" to "Commercial or institutional entity." See "Entity Category Accuracy" above for full detail. | [Your Name] |
 
 ---
 

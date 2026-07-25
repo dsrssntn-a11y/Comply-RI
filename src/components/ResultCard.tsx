@@ -13,12 +13,14 @@ interface ResultCardProps {
   submitted: SubmittedCalculatorValues;
   onNavigateToHaulers: () => void;
   onOpenHowItWorks: () => void;
+  onOpenImportantToKnow: () => void;
 }
 
 export default function ResultCard({
   submitted,
   onNavigateToHaulers,
   onOpenHowItWorks,
+  onOpenImportantToKnow,
 }: ResultCardProps) {
   const {
     nearestFacility,
@@ -91,6 +93,37 @@ export default function ResultCard({
           <p className="text-sm text-fog-gray">
             An authorized facility is available within {FACILITY_SEARCH_RADIUS_MILES} miles — see
             the details below to start diverting food waste there.
+          </p>
+        ) : null}
+
+        {submitted.entityType === "higher_ed" && complianceStatus !== "below" ? (
+          <p className="text-xs text-slate-amber bg-slate-amber/10 rounded-lg px-3 py-2">
+            State law measures the 52-ton threshold per building, not campus-wide — if the tonnage
+            you entered is a total across multiple separate buildings, your actual obligation may
+            differ by building.{" "}
+            <button
+              type="button"
+              onClick={onOpenImportantToKnow}
+              className="underline underline-offset-2 hover:text-harbor-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bay-blue/50 rounded"
+            >
+              See Important things to know
+            </button>
+            .
+          </p>
+        ) : null}
+
+        {submitted.entityType === "higher_ed" || submitted.entityType === "other" ? (
+          <p className="text-xs text-fog-gray">
+            This entity category may also have a separate recordkeeping duty under state law,
+            regardless of the result above.{" "}
+            <button
+              type="button"
+              onClick={onOpenImportantToKnow}
+              className="underline underline-offset-2 hover:text-harbor-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bay-blue/50 rounded"
+            >
+              See Important things to know
+            </button>
+            .
           </p>
         ) : null}
       </div>
