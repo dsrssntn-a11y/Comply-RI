@@ -102,12 +102,19 @@ export default function HowItWorks({ open, onClose }: HowItWorksProps) {
         <p className="text-xs font-semibold text-harbor-blue uppercase tracking-wide mb-1">
           15-mile facility condition
         </p>
-        <p>
+        <p className="mb-2">
           If you're at or above your threshold, the tool measures the straight-line ("as the crow
-          flies") distance from your zip code to every authorized facility using the haversine
+          flies") distance from your location to every authorized facility using the haversine
           formula — not driving distance. If no facility is within{" "}
           {FACILITY_SEARCH_RADIUS_MILES} miles, the tool reports that no authorized facility is
           within that radius — reflecting the 15-mile condition set out in the statute.
+        </p>
+        <p>
+          The statute measures from your entity's actual location, not a zip code. By default,
+          this tool uses your zip code's geographic center point as an approximation, since it
+          only collects a zip code — for a borderline result, use "Want a more precise result?
+          Enter your exact address" on the calculator to geocode your specific address instead
+          (via OpenStreetMap's free public lookup service).
         </p>
       </div>
 

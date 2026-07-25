@@ -20,21 +20,29 @@ export interface CalculatorFormValues {
   entityType: EntityType | "";
   zip: string;
   tonnage: string;
+  streetAddress: string;
+  city: string;
 }
 
 export interface CalculatorFormErrors {
   entityType?: string;
   zip?: string;
   tonnage?: string;
+  streetAddress?: string;
+  city?: string;
 }
 
 export type ComplianceStatus = "below" | "comply" | "exempt";
+
+export type LocationSource = "zip-centroid" | "exact-address";
 
 export interface SubmittedCalculatorValues {
   entityType: EntityType;
   entityLabel: string;
   zip: string;
-  zipCentroid: ZipCentroid;
+  originCoordinates: ZipCentroid;
+  locationSource: LocationSource;
+  geocodeNotice?: string;
   tonnage: number;
   threshold: number;
   complianceStatus: ComplianceStatus;

@@ -20,8 +20,10 @@ export default function CalculatorForm({
   onNavigateToHaulers,
   onOpenHowItWorks,
 }: CalculatorFormProps) {
-  const { values, errors, submitted, setField, handleSubmit } = useFoodWasteCalculator();
+  const { values, errors, submitted, isGeocoding, setField, handleSubmit } =
+    useFoodWasteCalculator();
   const [tonnageMode, setTonnageMode] = useState<TonnageMode>("direct");
+  const [addressMode, setAddressMode] = useState(false);
 
   return (
     <div>
@@ -38,17 +40,56 @@ export default function CalculatorForm({
           onChange={(value) => setField("entityType", value as typeof values.entityType)}
         />
 
-        <InputField
-          id="zip-code"
-          label="Zip code"
-          helperText="Rhode Island zip codes only (02800–02940)."
-          error={errors.zip}
-          value={values.zip}
-          onChange={(value) => setField("zip", value)}
-          type="text"
-          inputMode="numeric"
-          placeholder="02886"
-        />
+        <div>
+          <InputField
+            id="zip-code"
+            label="Zip code"
+            helperText="Rhode Island zip codes only (02800–02940)."
+            error={errors.zip}
+            value={values.zip}
+            onChange={(value) => setField("zip", value)}
+            type="text"
+            inputMode="numeric"
+            placeholder="02886"
+          />
+
+          <button
+            type="button"
+            onClick={() => setAddressMode((mode) => !mode)}
+            className="mt-1.5 text-xs text-bay-blue hover:text-harbor-blue underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bay-blue/50 rounded"
+          >
+            {addressMode
+              ? "Use zip code only instead"
+              : "Want a more precise result? Enter your exact address"}
+          </button>
+
+          {addressMode ? (
+            <div className="mt-2 space-y-3 rounded-xl border border-mist-gray bg-cloud-white p-3">
+              <InputField
+                id="street-address"
+                label="Street address"
+                error={errors.streetAddress}
+                value={values.streetAddress}
+                onChange={(value) => setField("streetAddress", value)}
+                type="text"
+                placeholder="289 Scituate Ave"
+              />
+              <InputField
+                id="city"
+                label="City or town"
+                error={errors.city}
+                value={values.city}
+                onChange={(value) => setField("city", value)}
+                type="text"
+                placeholder="Johnston"
+              />
+              <p className="text-xs text-fog-gray">
+                This address is sent to OpenStreetMap's free public geocoding service to find its
+                coordinates — it is not stored by this tool.
+              </p>
+            </div>
+          ) : null}
+        </div>
 
         <div>
           <InputField
@@ -91,10 +132,11 @@ export default function CalculatorForm({
 
         <button
           type="button"
-          onClick={handleSubmit}
-          className="w-full rounded-xl bg-anchor-gold text-harbor-blue font-semibold py-3 text-[15px] hover:brightness-95 transition-[filter] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-harbor-blue/60 focus-visible:ring-offset-2"
+          onClick={() => handleSubmit(addressMode)}
+          disabled={isGeocoding}
+          className="w-full rounded-xl bg-anchor-gold text-harbor-blue font-semibold py-3 text-[15px] hover:brightness-95 transition-[filter] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-harbor-blue/60 focus-visible:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed"
         >
-          Calculate
+          {isGeocoding ? "Looking up address…" : "Calculate"}
         </button>
       </div>
 
@@ -102,11 +144,13 @@ export default function CalculatorForm({
           readers reliably announce it when a result appears, rather than
           relying on a live region that's itself newly mounted. */}
       <div aria-live="polite" role="status" className="sr-only">
-        {submitted
-          ? `Result: ${STATUS_LABELS[submitted.complianceStatus]}. ${formatTons(
-              submitted.tonnage
-            )} entered against a ${formatTons(submitted.threshold)} threshold.`
-          : ""}
+        {isGeocoding
+          ? "Looking up address…"
+          : submitted
+            ? `Result: ${STATUS_LABELS[submitted.complianceStatus]}. ${formatTons(
+                submitted.tonnage
+              )} entered against a ${formatTons(submitted.threshold)} threshold.`
+            : ""}
       </div>
 
       {submitted ? (

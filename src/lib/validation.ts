@@ -35,3 +35,17 @@ export function validateEntityType(entityType: string): ValidationResult {
   }
   return { valid: true };
 }
+
+export function validateStreetAddress(streetAddress: string): ValidationResult {
+  if (streetAddress.trim() === "") {
+    return { valid: false, error: "Enter a street address." };
+  }
+  return { valid: true };
+}
+
+export function validateCity(city: string): ValidationResult {
+  if (city.trim() === "") {
+    return { valid: false, error: "Enter a city or town." };
+  }
+  return { valid: true };
+}

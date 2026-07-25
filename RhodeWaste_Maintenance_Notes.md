@@ -1,11 +1,19 @@
 # RhodeWaste — Organics Navigator: Maintenance Notes
-**Version 1.0 | For internal use and institutional handoff**
+**Version 1.1 | For internal use and institutional handoff**
 
 ---
 
 ## Purpose
 
 This document outlines how to keep the RhodeWaste tool accurate and current after launch. It is written for both the original maintainer and any institutional partner (RIDEM, RIFPC) who may take over the tool in a future version.
+
+---
+
+## Where This Lives
+
+- **Code repository:** https://github.com/dsrssntn-a11y/RhodeWaste-Organics-Navigator
+- **Stack:** React + TypeScript + Vite, Tailwind CSS. No backend, no database — a static site that can be hosted anywhere that serves static files (GitHub Pages, Netlify, a state web server, etc.). See `README.md` for the full build spec and file structure.
+- **Not yet set:** this has not been deployed to a public production URL. `og:url` in `index.html` and the "og-image" social preview are ready to go but need that URL once one exists — see the comment left in `index.html`.
 
 ---
 
@@ -21,6 +29,10 @@ The tool is built on the following statutory and regulatory sources. These must 
 
 **How to check for statutory changes:** Visit webserver.rilegislature.gov and search § 23-18.9-17 directly. Look for any amendments to tonnage thresholds, entity definitions, or the 15-mile condition. If the statute changes, the calculator logic must be updated before the next user session.
 
+**Last verified against the primary source:** July 2026. Pulled the full verbatim text directly from webserver.rilegislature.gov (not a summary or a secondary source) and confirmed subsections (a)–(d) match the tool's thresholds exactly: 104 tons (a, all other generators), 52 tons (b, higher-ed/covered educational institutions), 30 tons (d, K–12/educational entities, effective 2023). No amendments since P.L. 2021, ch. 344 & 345 (effective September 1, 2021).
+
+**Subsection (c) — a waiver provision the tool discloses but does not calculate.** The statute includes a mandatory waiver: *"The director shall grant a waiver of the requirements of subsections (a) and (b) upon a showing that the tipping fee charged by [RIRRC] for non-contract commercial sector waste is less than the fee charged for organic-waste material by each composting facility or anaerobic digestion facility located within fifteen (15) miles of the covered entity's location."* This applies only to the 104-ton and 52-ton categories, not the 30-ton K–12 category (added later, in a separate subsection). The tool cannot calculate eligibility for this — RIRRC/facility tipping-fee data isn't publicly compiled anywhere (confirmed during the Project Seed Checklist's own "confirm data exists" research). It's disclosed to users via a popup + a How It Works section (§ 23-18.9-17(c), cited with a direct link) whenever a result would otherwise be "Facility Available" in an eligible category, directing them to RIDEM to inquire.
+
 ---
 
 ## Data Sources and Update Schedule
@@ -34,6 +46,21 @@ The tool is built on the following statutory and regulatory sources. These must 
 | Statutory thresholds and legal language | RI General Laws § 23-18.9-17 | Legislative session changes only | Annually |
 
 **Note on hauler directory source:** CET no longer maintains a publicly available RI service providers list. RIRRC is now the primary hauler source. The RIRRC list does not indicate which haulers handle food waste specifically — the curated organics-capable hauler list in this tool is verified separately via RIFPC outreach and should be re-verified quarterly.
+
+---
+
+## External Dependencies (Third-Party Services)
+
+For a security/IT review: this is the complete list of external services the tool calls at runtime. Both are free and require no API key or account — no secrets to manage, and neither is billed. If either changes terms or goes down, the tool degrades gracefully rather than breaking (details below).
+
+| Service | Used For | Called When | If Unavailable |
+|---|---|---|---|
+| OpenStreetMap tile server (`tile.openstreetmap.org`) | Map tiles behind the facility-location pin on the result screen | Every result that shows a facility (above-threshold results) | The two location pins and distance number still display correctly — only the background map tiles fail to load. No impact on the compliance calculation itself. |
+| Nominatim (`nominatim.openstreetmap.org`), OpenStreetMap's geocoder | Converts a user-entered street address to coordinates, for the optional "enter your exact address" precision mode | Only when a user explicitly opts into address mode and clicks Calculate — never on the default zip-code path | Tool automatically falls back to the zip-code-centroid calculation and shows the user a clear notice explaining the fallback. Nothing breaks; the user still gets a result. |
+
+**Why not the Census Bureau's geocoder instead?** It was the first choice (also free, also keyless, and a government-to-government data source felt like a better philosophical fit) — but testing showed it does not send CORS headers, so it cannot be called directly from a browser at all. Using it would require standing up a small server-side proxy, which this project does not otherwise need. Nominatim was verified working directly from the browser before building around it.
+
+**Nominatim usage policy** (operations.osmfoundation.org/policies/nominatim): the public instance caps usage at roughly 1 request/second and asks for attribution wherever results are shown. This tool's usage is a single, user-initiated lookup per Calculate click (not autocomplete/typeahead), which comfortably satisfies the rate limit by construction — no additional client-side throttling was needed. If this tool's traffic ever grows enough to strain the public instance, the options are self-hosting Nominatim or switching to a paid geocoder (which would then need the server-side proxy noted above, for the API key). Revisit this if usage grows significantly — same "evaluate at scale" logic as the facility-geocoding note below.
 
 ---
 
@@ -111,16 +138,16 @@ These requirements must be met before the tool goes live and verified after any 
 
 ## Security Requirements: Build Checklist
 
-These apply at build time. Flag any unresolved items before launch.
+These apply at build time. Flag any unresolved items before launch. Status as of July 2026:
 
-- [ ] All API keys, database credentials, and geocoding secrets kept server-side only — never in browser code or public repositories
-- [ ] User inputs are session-only — no personal data stored or transmitted beyond the active session
-- [ ] Input validation applied to zip code, entity type, and tonnage fields on both client and server side
-- [ ] Server-side re-checks run for all threshold calculations and facility lookups — client-side output alone is not sufficient
-- [ ] If any admin or maintenance views exist, they require authentication and authorization checks
-- [ ] Rate limiting applied to any external API calls (maps, geocoding) to prevent cost exposure
-- [ ] Logging captures only what is needed for debugging — no unnecessary logging of user-entered data
-- [ ] Any external datasets or APIs treated as untrusted inputs — records verified before results are published to users
+- [x] All API keys, database credentials, and geocoding secrets kept server-side only — never in browser code or public repositories. *Both external services (OpenStreetMap tiles, Nominatim) are keyless — there is nothing to secure. No secrets exist anywhere in this codebase.*
+- [x] User inputs are session-only — no personal data stored or transmitted beyond the active session. *Still true, including the new optional address field — an entered address is sent only to Nominatim for that one lookup and is never stored.*
+- [x] Input validation applied to zip code, entity type, and tonnage fields (now also street address / city) — client-side only; there is no server to also validate on, see the next item
+- [ ] Server-side re-checks run for all threshold calculations and facility lookups — **N/A by design.** There is no server; this is a static client-only app, per the original build spec. If this tool is ever extended to submit data anywhere (e.g. a future enforcement-reporting feature), server-side validation becomes mandatory at that point — see Compliance and Privacy Requirements below.
+- [ ] If any admin or maintenance views exist, they require authentication and authorization checks — **N/A**, no admin views exist. Facility/hauler data updates are made by editing the static JSON/CSV/TS data files directly in the repository.
+- [x] Rate limiting applied to any external API calls (maps, geocoding) to prevent cost exposure. *Both services are free with no cost-exposure risk. Nominatim calls are inherently rate-limited by the UI (one lookup per manual Calculate click, not automatic/typeahead) — comfortably within its ~1 req/sec public usage policy. See External Dependencies above.*
+- [x] Logging captures only what is needed for debugging — no unnecessary logging of user-entered data. *No logging of any kind exists in this app — no analytics, no error-tracking service, nothing.*
+- [x] Any external datasets or APIs treated as untrusted inputs — records verified before results are published to users. *Geocoding failures (no match, service error) fall back to the zip-centroid method rather than trusting an unverifiable response; facility/hauler data is manually reviewed before being added per the update steps above.*
 
 ---
 
@@ -133,13 +160,27 @@ These apply at build time. Flag any unresolved items before launch.
 
 ---
 
-## Note on Geocoding for Future Versions
+## Accessibility Compliance (WCAG 2.1 AA)
 
-For MVP, facility coordinates are maintained manually. When a facility address changes, the maintainer geocodes the new address and updates the dataset directly. This is a two-minute task given the small number of facilities (currently 10).
+**Why this matters for RIDEM specifically:** under the DOJ's April 2024 rule implementing ADA Title II, state and local government web content now has a binding legal deadline to meet WCAG 2.1 AA — April 2026 for larger jurisdictions, April 2027 for smaller ones. If this tool becomes RIDEM-owned, it becomes subject to that rule as state government content.
 
-If this tool is handed off to RIDEM or RIFPC for ongoing maintenance, a non-technical maintainer may benefit from a built-in geocoding step rather than a manual lookup process — both for ease of use and to reduce the risk of human error in coordinate entry. This should be evaluated at the point of institutional handoff, once the maintainer's technical comfort level is known.
+**Audited:** July 2026, via a two-part process:
+1. **Automated** — axe-core (the industry-standard automated accessibility test engine) run against every distinct page/interaction state: empty form, validation errors, the waste-tracking-records mode, all three compliance outcomes (each with their respective popup open and dismissed), the exact-address mode, the geocoding-fallback notice, the How It Works drawer, and the Hauler Directory. **Result: 0 violations across all 11 states**, after fixing 3 real issues the scan caught (details in changelog below).
+2. **Manual** — keyboard-only navigation testing and direct focus-order verification (things automated scanners can't fully check), which caught a real focus-trap gap the automated pass didn't flag.
 
-Do not build geocoding into the tool before that conversation happens. Premature automation adds API dependencies and maintenance overhead that may not be warranted at this stage.
+**What this audit does *not* cover:** screen-reader testing with an actual AT (e.g. NVDA/JAWS/VoiceOver) end-to-end, user testing with people who use assistive technology, and criteria that require human judgment calls (e.g., whether alt text is *meaningfully* descriptive vs. just present). Axe-core catches roughly 30-50% of WCAG issues by nature — real-world testing with actual AT users is what closes that remaining gap, and is worth doing before this is presented as fully compliant to RIDEM, not just "audited."
+
+**Re-audit trigger:** any future UI change should re-run this same process before shipping — a passing audit today doesn't guarantee a passing audit after a new feature. There is no CI/automated gate for this yet; it has been run manually each time.
+
+---
+
+## Note on Geocoding — Two Different Contexts, Don't Conflate Them
+
+**Facility-list geocoding (maintainer-side) — still manual, unchanged.** For MVP, facility coordinates are maintained manually. When a facility address changes, the maintainer geocodes the new address and updates the dataset directly. This is a two-minute task given the small number of facilities (currently 10). See "Facility Data: How to Update" above.
+
+If this tool is handed off to RIDEM or RIFPC for ongoing maintenance, a non-technical maintainer may benefit from a built-in geocoding step here too, rather than a manual lookup process. This should still be evaluated at the point of institutional handoff, once the maintainer's technical comfort level is known — **this specific piece has not been built**, and shouldn't be until that conversation happens.
+
+**User-address geocoding (end-user-side) — now built, as of July 2026.** This is a different feature entirely: an *optional* precision mode on the calculator itself, where a user can enter their exact street address instead of relying on their zip code's center point, for a more accurate 15-mile determination (the statute measures from the entity's actual location, not a zip code — zip-centroid is this tool's approximation for the default, faster path). This uses the Nominatim service described in "External Dependencies" above, is entirely session-only (nothing stored), and falls back cleanly to the zip-centroid method if the lookup fails. The original caution above ("do not build geocoding before evaluating maintainer needs") was about the *facility-list* maintenance workflow — this is a separate, already-completed, user-facing accuracy feature and does not conflict with that guidance.
 
 ---
 
@@ -154,6 +195,9 @@ Do not build geocoding into the tool before that conversation happens. Premature
 | Statutory thresholds (§ 23-18.9-17) | Annually | Check RI General Assembly for amendments each January |
 | RIDEM composting regulations | Annually | Check dem.ri.gov for regulatory updates |
 | Security checklist review | At each build update | Re-run security checklist before any new deployment |
+| Dependency vulnerabilities | At each build update, minimum quarterly | Run `npm audit`; address any new findings before deploying |
+| Accessibility (WCAG 2.1 AA) re-audit | At each UI change, minimum annually | Re-run the axe-core + manual keyboard audit described in Accessibility Compliance above — a prior clean audit does not carry forward automatically |
+| Statutory tipping-fee waiver disclosure (§ 23-18.9-17(c)) | Annually, alongside the statutory threshold check | Confirm the waiver provision text/conditions haven't changed; update the How It Works wording if they have |
 
 ---
 
@@ -163,6 +207,13 @@ Do not build geocoding into the tool before that conversation happens. Premature
 |---|---|---|
 | May 2026 | Initial dataset compiled from RIDEM facility inventory (May 4, 2026) and agricultural permit list | [Your Name] |
 | May 2026 | Hauler directory source updated from CET to RIRRC. Legal, build, security, and compliance requirements added. Scheduled maintenance checks added. | [Your Name] |
+| Jul 2026 | Full prototype build completed (calculator, facility map, How It Works, Hauler Directory with real RIRRC/RIFPC-verified contact data) and legality-checked against the Project Seed Checklist. | [Your Name] |
+| Jul 2026 | Tool renamed Comply RI → RhodeWaste — Organics Navigator throughout (code, data files, docs). GitHub repo renamed to match. | [Your Name] |
+| Jul 2026 | Vite upgraded 5→8 (with a matching @vitejs/plugin-react bump) to resolve 2 npm audit vulnerabilities. 0 vulnerabilities as of this date. | [Your Name] |
+| Jul 2026 | Statute re-verified directly against the primary source (webserver.rilegislature.gov, full verbatim text, not a summary). Confirmed thresholds unchanged; discovered the § 23-18.9-17(c) tipping-fee waiver was previously undisclosed in the tool. Added a popup + How It Works section disclosing it for the 52-ton and 104-ton categories (not applicable to K–12). | [Your Name] |
+| Jul 2026 | Added an optional "exact address" precision mode (Nominatim geocoding) alongside the default zip-centroid method, since the statute measures from the entity's actual location, not a zip code. Falls back to zip-centroid on any lookup failure. See External Dependencies and the Geocoding note above. | [Your Name] |
+| Jul 2026 | Added a share feature (native Web Share API + clipboard fallback) for above-threshold results, and Open Graph / Twitter Card social-preview tags. | [Your Name] |
+| Jul 2026 | First formal WCAG 2.1 AA accessibility audit — automated (axe-core) + manual keyboard/focus testing across every page state. Fixed: insufficient text contrast on status-chip colors, a focus-trap gap in both popup dialogs, a dangling ARIA reference on tab switch, missing status announcements for screen readers on calculation results, and insufficient border contrast on form controls. 0 violations as of this audit. See Accessibility Compliance above. | [Your Name] |
 
 ---
 

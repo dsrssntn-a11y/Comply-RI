@@ -20,8 +20,16 @@ export default function ResultCard({
   onNavigateToHaulers,
   onOpenHowItWorks,
 }: ResultCardProps) {
-  const { nearestFacility, complianceStatus, tonnage, threshold, entityLabel, zipCentroid } =
-    submitted;
+  const {
+    nearestFacility,
+    complianceStatus,
+    tonnage,
+    threshold,
+    entityLabel,
+    originCoordinates,
+    locationSource,
+    geocodeNotice,
+  } = submitted;
   const withinRadius = complianceStatus === "comply";
   const showFacility = complianceStatus !== "below" && nearestFacility;
   const waiverEligible =
@@ -49,6 +57,12 @@ export default function ResultCard({
           <span className="tabular-nums font-semibold">{formatTons(tonnage)}</span> per year
         </p>
       </div>
+
+      {geocodeNotice ? (
+        <p className="text-xs text-slate-amber bg-slate-amber/10 rounded-lg px-3 py-2">
+          {geocodeNotice}
+        </p>
+      ) : null}
 
       {complianceStatus !== "below" ? (
         <ImpactCallout
@@ -108,14 +122,16 @@ export default function ResultCard({
             </span>
           </p>
           <p className="text-xs text-fog-gray mt-0.5">
-            Measured as straight-line distance, as the law requires — a map app's driving
-            distance will likely show a different number.
+            Measured as straight-line distance from{" "}
+            {locationSource === "exact-address" ? "your exact address" : "your zip code's center point"},
+            as the law requires — a map app's driving distance will likely show a different
+            number.
           </p>
 
           <div className="mt-3">
             <FacilityMap
-              userLat={zipCentroid.lat}
-              userLon={zipCentroid.lon}
+              userLat={originCoordinates.lat}
+              userLon={originCoordinates.lon}
               userZip={submitted.zip}
               facilityLat={nearestFacility.facility.latitude}
               facilityLon={nearestFacility.facility.longitude}
