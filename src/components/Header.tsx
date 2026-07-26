@@ -26,7 +26,7 @@ export default function Header({
   return (
     <header className="bg-surface-white border-b border-mist-gray">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between py-3 gap-3">
+        <div className="flex flex-col gap-2 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
           <div className="flex items-center gap-2.5 min-w-0">
             <RhodeIslandMark />
             <div className="min-w-0">
@@ -36,7 +36,7 @@ export default function Header({
               <p className="text-fog-gray text-xs sm:text-sm truncate">{COPY.taglineFull}</p>
             </div>
           </div>
-          <div className="shrink-0 flex items-center gap-3">
+          <div className="flex items-center gap-3 sm:shrink-0">
             <button
               type="button"
               onClick={onHowItWorksClick}
