@@ -2,7 +2,7 @@ import { COPY } from "../data/copy";
 
 export default function Hero() {
   return (
-    <section className="hero-strip">
+    <section className="hero-strip" aria-label="Introduction">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 flex gap-2.5">
         {/* Matches the header's icon width (w-7) + gap so this text lines up
             with the header's h1, which is indented past the RhodeIslandMark icon.

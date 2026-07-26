@@ -16,13 +16,23 @@
 
 /* Typography — Hero */
 .hero-statement {
-  font-size: 16px;
+  font-size: 15px;
   color: #123B66;
 }
 
 .civic-trust {
-  font-size: 14px;
+  font-size: 13px;
   color: #5F6B7A;
+}
+
+@media (min-width: 640px) {
+  .hero-statement {
+    font-size: 16px;
+  }
+
+  .civic-trust {
+    font-size: 14px;
+  }
 }
 
 /* Hero section wrapper — not part of the pasted spec, added so .hero-strip

@@ -53,10 +53,10 @@ export default function Header({
           <div className="flex items-center gap-2.5 min-w-0">
             <RhodeIslandMark />
             <div className="min-w-0">
-              <h1 className="text-harbor-blue font-semibold text-xl sm:text-2xl tracking-tight truncate">
+              <h1 className="text-harbor-blue font-semibold text-lg sm:text-2xl tracking-tight sm:truncate">
                 {COPY.toolName}
               </h1>
-              <p className="text-fog-gray text-xs sm:text-sm truncate">{COPY.taglineFull}</p>
+              <p className="text-fog-gray text-xs sm:text-sm sm:truncate">{COPY.taglineFull}</p>
             </div>
           </div>
           <div className="hidden sm:flex items-center gap-3 sm:shrink-0">
