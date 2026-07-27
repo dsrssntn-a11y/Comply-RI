@@ -37,7 +37,10 @@ function HaulerCard({ hauler }: { hauler: HaulerListing }) {
     ? `tel:${hauler.phone.replace(/[^\d+]/g, "")}`
     : undefined;
   const emailHref = hauler.email !== "Not listed" ? `mailto:${hauler.email}` : undefined;
-  const websiteHref = hauler.website !== "Not listed" ? `https://${hauler.website}` : undefined;
+  const websiteHref =
+    hauler.website !== "Not listed" && !hauler.websiteCaveat
+      ? `https://${hauler.website}`
+      : undefined;
 
   return (
     <div className="bg-surface-white border border-mist-gray rounded-xl p-4">
@@ -54,6 +57,12 @@ function HaulerCard({ hauler }: { hauler: HaulerListing }) {
         <ContactLine label="Address" value={hauler.address} />
         <ContactLine label="Website" value={hauler.website} href={websiteHref} external />
       </div>
+
+      {hauler.websiteCaveat ? (
+        <p className="text-xs text-slate-amber bg-slate-amber/10 rounded-lg px-2.5 py-1.5 mt-2">
+          {hauler.websiteCaveat}
+        </p>
+      ) : null}
     </div>
   );
 }

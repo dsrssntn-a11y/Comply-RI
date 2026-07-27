@@ -8,27 +8,18 @@ export const HAULERS: HaulerListing[] = [
     verified_service: "Food scrap pickup and compost delivery service.",
     service_area: "Eastern Rhode Island only.",
     phone: "978-290-4610",
-    email: "grobe@blackearthcompost.com",
+    email: "service@blackearthcompost.com",
     address: "No single RI address listed (RI/MA/NH service area).",
     website: "blackearthcompost.com",
   },
   {
     hauler_name: "Bootstrap Compost",
     verified_service: "Compost collection for food scraps and organics.",
-    service_area: "Rhode Island (coverage area not clearly specified).",
+    service_area: "Northern and central Rhode Island — Providence metro area and select communities.",
     phone: "(617) 642-1979",
     email: "info@bootstrapcompost.com",
     address: "P.O. Box 40184, Providence, RI 02904",
     website: "bootstrapcompost.com",
-  },
-  {
-    hauler_name: "City Compost",
-    verified_service: "Accepts all foods, yard material, and compostables.",
-    service_area: "Not clearly specified.",
-    phone: "978-407-0234",
-    email: "Not listed",
-    address: "Not listed",
-    website: "citycompost.com",
   },
   {
     hauler_name: "Harvest Cycle",
@@ -47,6 +38,8 @@ export const HAULERS: HaulerListing[] = [
     email: "paul@pftrading.com",
     address: "104 Braley Rd, East Freetown, MA",
     website: "pftrading.com",
+    websiteCaveat:
+      "This site's SSL certificate doesn't match its domain, which can trigger browser security warnings (confirmed independently — not just one browser's false positive). The address is likely still correct, but call to confirm before entering any information there.",
   },
   {
     hauler_name: "ReMix Organics",

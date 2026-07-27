@@ -67,6 +67,9 @@ export interface HaulerListing {
   email: string;
   address: string;
   website: string;
+  /** When present, the website is shown as plain (non-clickable) text and
+   *  this text is displayed as a caveat, instead of rendering a link. */
+  websiteCaveat?: string;
 }
 
 export type WeightUnit = "lbs" | "tons";

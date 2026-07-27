@@ -80,6 +80,23 @@ The statute's actual trigger condition (§ 23-18.9-17(a)(2)) is distance to an a
 
 **Note on hauler directory source:** CET no longer maintains a publicly available RI service providers list. RIRRC is now the primary hauler source. The RIRRC list does not indicate which haulers handle food waste specifically — the curated organics-capable hauler list in this tool is verified separately via RIFPC outreach and should be re-verified quarterly.
 
+**Pending action items (in progress as of Jul 2026):** the facility inventory and agricultural permit rechecks flagged as overdue above are now underway, not just identified:
+1. Emailed RIDEM to confirm current facility data.
+2. Emailed Tyler Hertzwig to confirm current agricultural composting permit status.
+3. Plan to recheck the facility data and compile updated contact information once responses come back.
+
+Update `src/data/facilities.ts` / `rhodewaste_facilities.json` and this document's "Last verified" dates once these come back — don't let the reply sit unactioned once it arrives.
+
+**Real findings from a real-device check (Jul 2026):** a friend tested the live site on an actual iPhone (Safari) as part of the cross-browser verification pass, and surfaced two genuine hauler-data problems that automated checks (Playwright/WebKit) hadn't caught, since those don't test third-party sites' own infrastructure:
+- **City Compost — removed entirely.** Both their phone number and website (`citycompost.com`) are dead — the phone is disconnected and the domain fails to resolve in DNS at all (verified via `curl`: "Could not resolve host"). With no working contact method left, the entry was removed from `src/data/haulers.ts` rather than kept with placeholder text.
+- **PF Trading — link disabled, not removed.** Safari flagged `pftrading.com` as a suspected impersonation attempt. Verified independently (not just trusting Safari's heuristic): `curl`'s TLS handshake fails with a certificate/hostname mismatch, and Chromium throws `net::ERR_CERT_COMMON_NAME_INVALID` on the same domain. Pulling the actual certificate shows it's issued for `*.turbifysites.com` (Turbify, a real hosting company, formerly Yahoo Small Business hosting) — not an unrelated/malicious domain. This looks like PF Trading's own hosting misconfiguration (no dedicated SSL cert set up for their custom domain), not a hijacked domain — but browsers can't tell the difference from the outside, so the warning will keep appearing until PF Trading's host fixes it. Added a `websiteCaveat` field (`types/index.ts`, rendered in `HaulerDirectory.tsx`) that shows the domain as plain non-clickable text with an amber note, instead of removing it outright, since the address itself is likely still correct. **Re-check at the next quarterly hauler verification** — remove the caveat once the certificate is fixed, or escalate to full removal if it's still broken after a reasonable grace period.
+
+This is a good argument for real-device spot-checks being worth doing occasionally, not just automated cross-browser engine checks — WebKit/Chromium confirm *our own* rendering is correct, but can't tell you a third-party contact link has gone bad.
+
+**Additional hauler data updates from this same review pass (Jul 2026):**
+- **Black Earth Compost** — email corrected to `service@blackearthcompost.com` (was `grobe@blackearthcompost.com`).
+- **Republic Services / Allied Waste Services — pending verification, not yet acted on.** Their listed phone (`401-943-3553`) and email (`awhite3@republicservices.com`) could not be verified as currently correct during this review. Nothing has been changed in the data yet — this is flagged here specifically so it isn't lost before the next quarterly hauler check, which should prioritize confirming (or correcting/removing) this contact info the same way City Compost and PF Trading were just resolved.
+
 ---
 
 ## External Dependencies (Third-Party Services)
@@ -296,6 +313,7 @@ If this tool is handed off to RIDEM or RIFPC for ongoing maintenance, a non-tech
 | Jul 2026 | Fixed a wording bug where the 15-mile distance disclosure implied the law requires zip-centroid measurement (it only requires straight-line vs. driving distance — zip-centroid is the tool's own default approximation). | dsrssntn-a11y |
 | Jul 2026 | Second compliance audit against primary statutory text (§ 23-18.9-7, § 23-18.9-18) found three gaps: the 104-ton category's label overstated the statute's specific enumerated "covered entity" list; the 52-ton higher-ed threshold is legally measured per building, not campus-wide; and the § 23-18.9-18 recordkeeping requirement was undisclosed. Added a "See exact legal definitions" toggle on the calculator (verbatim statutory text per category) and a new "Important things to know" panel covering all three. Relabeled the 104-ton category from "All other generators (municipal, institutional)" to "Commercial or institutional entity." See "Entity Category Accuracy" above for full detail. | dsrssntn-a11y |
 | Jul 2026 | Mobile layout pass: fixed the header title truncating on narrow screens, the hero text's misaligned indent, and collapsed the "How it works" / "Important things to know" links into a single info-icon menu on mobile (desktop unchanged). Re-ran `npm audit` (0 vulnerabilities) and the axe-core accessibility audit afterward — caught and fixed one pre-existing landmark issue in `Hero.tsx` unrelated to these changes; 0 violations after the fix. Confirmed the entity-type values, thresholds, and calculation logic were untouched by any of this session's UI/label work. See Accessibility Compliance above. | dsrssntn-a11y |
+| Jul 2026 | Cross-browser check via Playwright's WebKit engine (0 rendering issues, 0 console errors) plus a real-device Safari/iPhone spot-check, which surfaced two genuine hauler-data problems automated engine checks couldn't have caught: City Compost's phone and website were both dead (removed entirely), and PF Trading's site has a certificate/domain mismatch that triggers real browser security warnings (verified independently via `curl` and Chromium, not just trusting Safari — link disabled, domain text kept with a caveat note, pending PF Trading fixing their hosting's SSL config). See "Real findings from a real-device check" above. | dsrssntn-a11y |
 
 ---
 
