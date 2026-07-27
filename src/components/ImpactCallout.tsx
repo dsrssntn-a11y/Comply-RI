@@ -74,9 +74,12 @@ export default function ImpactCallout({ tonnage, shareable }: ImpactCalloutProps
             onClick={handleShare}
             title={copied ? COPY.shareCopied : COPY.shareCommitment}
             aria-label={copied ? COPY.shareCopied : "Share your compliance commitment"}
-            className="inline-block align-text-bottom ml-1 bg-transparent border-0 p-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bay-blue/50 rounded"
+            className="inline-flex items-center gap-1 align-middle ml-1.5 pl-1.5 pr-2.5 py-px rounded-full bg-sea-glass/10 hover:bg-sea-glass/20 border border-sea-glass/30 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bay-blue/50"
           >
             <LeafSparkleIcon />
+            <span className="text-xs font-semibold text-sea-glass">
+              {copied ? "Copied" : "Share"}
+            </span>
           </button>
         ) : (
           <span className="inline-block align-text-bottom ml-1">

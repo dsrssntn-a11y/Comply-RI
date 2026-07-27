@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SelectField from "./SelectField";
 import InputField from "./InputField";
 import Disclaimer from "./Disclaimer";
@@ -17,18 +17,24 @@ interface CalculatorFormProps {
   onNavigateToHaulers: () => void;
   onOpenHowItWorks: () => void;
   onOpenImportantToKnow: () => void;
+  onResultChange: (hasResult: boolean) => void;
 }
 
 export default function CalculatorForm({
   onNavigateToHaulers,
   onOpenHowItWorks,
   onOpenImportantToKnow,
+  onResultChange,
 }: CalculatorFormProps) {
   const { values, errors, submitted, isGeocoding, setField, handleSubmit } =
     useFoodWasteCalculator();
   const [tonnageMode, setTonnageMode] = useState<TonnageMode>("direct");
   const [addressMode, setAddressMode] = useState(false);
   const [definitionsOpen, setDefinitionsOpen] = useState(false);
+
+  useEffect(() => {
+    onResultChange(submitted !== null);
+  }, [submitted, onResultChange]);
 
   return (
     <div>

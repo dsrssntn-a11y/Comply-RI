@@ -13,6 +13,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<TabId>("calculator");
   const [howItWorksOpen, setHowItWorksOpen] = useState(false);
   const [importantToKnowOpen, setImportantToKnowOpen] = useState(false);
+  const [hasResult, setHasResult] = useState(false);
 
   useEffect(() => {
     if (!howItWorksOpen) return;
@@ -59,7 +60,7 @@ export default function App() {
           setImportantToKnowOpen((open) => !open);
         }}
       />
-      <Hero />
+      {activeTab === "calculator" && hasResult ? null : <Hero />}
       <PageLayout>
         <div
           id={`tabpanel-${activeTab}`}
@@ -77,6 +78,7 @@ export default function App() {
                 onNavigateToHaulers={() => setActiveTab("haulers")}
                 onOpenHowItWorks={() => setHowItWorksOpen(true)}
                 onOpenImportantToKnow={() => setImportantToKnowOpen(true)}
+                onResultChange={setHasResult}
               />
             </>
           ) : (

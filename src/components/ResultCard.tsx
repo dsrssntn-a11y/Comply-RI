@@ -96,11 +96,16 @@ export default function ResultCard({
           </p>
         ) : null}
 
+        {complianceStatus === "exempt" ? (
+          <p className="text-xs text-slate-amber bg-slate-amber/10 rounded-lg px-3 py-2">
+            This status may change if new authorized facilities open in your area. Re-check
+            annually.
+          </p>
+        ) : null}
+
         {submitted.entityType === "higher_ed" && complianceStatus !== "below" ? (
           <p className="text-xs text-slate-amber bg-slate-amber/10 rounded-lg px-3 py-2">
-            State law measures the 52-ton threshold per building, not campus-wide — if the tonnage
-            you entered is a total across multiple separate buildings, your actual obligation may
-            differ by building.{" "}
+            This 52-ton threshold is measured per building, not campus-wide.{" "}
             <button
               type="button"
               onClick={onOpenImportantToKnow}
@@ -108,7 +113,7 @@ export default function ResultCard({
             >
               See Important things to know
             </button>
-            .
+            , as actual obligations may differ.
           </p>
         ) : null}
 

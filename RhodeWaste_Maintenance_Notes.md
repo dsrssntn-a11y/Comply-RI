@@ -47,6 +47,14 @@ A deeper pass against the primary statutory text (§ 23-18.9-7 definitions and �
 
 ---
 
+## Known Limitation — Exempt Result Staleness
+
+The exempt output state creates an asymmetry that RIDEM would need to address. An entity confirmed exempt today because no facility exists within 15 miles has no mechanism to be notified when that changes. The tool's static nature means a user could rely on an exempt result that is no longer accurate.
+
+**Mitigation shipped (Jul 2026):** a single line on the exempt result — *"This status may change if new authorized facilities open in your area. Re-check annually."* — closes the gap without requiring any architectural change (`ResultCard.tsx`). This is a disclosure, not a fix: it doesn't notify anyone of anything, it just tells the user their result has a shelf life. A real fix (e.g. an email/subscription alert when a new facility opens near a previously-exempt zip) would require a backend, user contact info, and a trigger tied to the facility-update process in "Data Sources and Update Schedule" below — out of scope for a static client-only tool, and a genuine architectural decision for whoever owns this next.
+
+---
+
 ## Data Sources and Update Schedule
 
 | Data | Source | How Often It Changes | Recommended Check |
@@ -73,6 +81,8 @@ For a security/IT review: this is the complete list of external services the too
 **Why not the Census Bureau's geocoder instead?** It was the first choice (also free, also keyless, and a government-to-government data source felt like a better philosophical fit) — but testing showed it does not send CORS headers, so it cannot be called directly from a browser at all. Using it would require standing up a small server-side proxy, which this project does not otherwise need. Nominatim was verified working directly from the browser before building around it.
 
 **Nominatim usage policy** (operations.osmfoundation.org/policies/nominatim): the public instance caps usage at roughly 1 request/second and asks for attribution wherever results are shown. This tool's usage is a single, user-initiated lookup per Calculate click (not autocomplete/typeahead), which comfortably satisfies the rate limit by construction — no additional client-side throttling was needed. If this tool's traffic ever grows enough to strain the public instance, the options are self-hosting Nominatim or switching to a paid geocoder (which would then need the server-side proxy noted above, for the API key). Revisit this if usage grows significantly — same "evaluate at scale" logic as the facility-geocoding note below.
+
+**Nominatim also requires a valid User-Agent or Referer identifying the application.** Browsers block scripts from setting a custom `User-Agent` header on `fetch()` calls (a platform-level restriction, not something fixable in this codebase), so that half of the requirement isn't something we can satisfy directly. It's satisfied by the fallback instead: Nominatim's policy explicitly accepts a valid Referer as an alternative, and `index.html` has no `referrer-policy` meta tag suppressing it — so once this is deployed to a real production domain, the browser's default, automatic Referer header (containing the page's own URL) already identifies the request correctly, with no code change possible or needed. If a future maintainer adds a strict no-referrer policy for other reasons, revisit this — it would silently break Nominatim policy compliance (not the feature itself, which would keep working).
 
 ---
 
