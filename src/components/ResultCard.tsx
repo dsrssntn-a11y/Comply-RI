@@ -92,7 +92,9 @@ export default function ResultCard({
         {complianceStatus === "comply" ? (
           <p className="text-sm text-fog-gray">
             An authorized facility is available within {FACILITY_SEARCH_RADIUS_MILES} miles — see
-            the details below to start diverting food waste there.
+            the details below to start diverting food waste there. Facility capacity and
+            operating status can change — confirm directly with the facility before relying on
+            this result, especially for smaller-scale operations.
           </p>
         ) : null}
 

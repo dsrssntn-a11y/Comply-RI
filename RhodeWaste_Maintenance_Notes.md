@@ -13,7 +13,8 @@ This document outlines how to keep the RhodeWaste tool accurate and current afte
 
 - **Code repository:** https://github.com/dsrssntn-a11y/RhodeWaste-Organics-Navigator
 - **Stack:** React + TypeScript + Vite, Tailwind CSS. No backend, no database — a static site that can be hosted anywhere that serves static files (GitHub Pages, Netlify, a state web server, etc.). See `README.md` for the full build spec and file structure.
-- **Not yet set:** this has not been deployed to a public production URL. `og:url` in `index.html` and the "og-image" social preview are ready to go but need that URL once one exists — see the comment left in `index.html`.
+- **License:** MIT (`LICENSE`, added Jul 2026). Copyright held under the repo owner's GitHub handle (`dsrssntn-a11y`) — there's no formal legal entity behind this project yet. **Revisit at RIDEM handoff**, same as the liability-clause wording noted in the Legal/Liability Review section above: update the copyright line, and decide whether MIT is still the right choice once there's a real institutional owner (it may be — government agencies commonly release code as MIT/permissive open source — but that's a decision for whoever takes over, not something to assume carries forward automatically).
+- **Deployed:** https://rhode-waste-organics-navigator.vercel.app/ — this is a Vercel-assigned domain, not a permanent/custom one. `og:url` and the social-preview image URLs in `index.html` now point here; if a custom or state-owned domain (e.g. under ri.gov) is ever set up, those need to be updated too — see the comment left in `index.html`.
 
 ---
 
@@ -52,6 +53,18 @@ A deeper pass against the primary statutory text (§ 23-18.9-7 definitions and �
 The exempt output state creates an asymmetry that RIDEM would need to address. An entity confirmed exempt today because no facility exists within 15 miles has no mechanism to be notified when that changes. The tool's static nature means a user could rely on an exempt result that is no longer accurate.
 
 **Mitigation shipped (Jul 2026):** a single line on the exempt result — *"This status may change if new authorized facilities open in your area. Re-check annually."* — closes the gap without requiring any architectural change (`ResultCard.tsx`). This is a disclosure, not a fix: it doesn't notify anyone of anything, it just tells the user their result has a shelf life. A real fix (e.g. an email/subscription alert when a new facility opens near a previously-exempt zip) would require a backend, user contact info, and a trigger tied to the facility-update process in "Data Sources and Update Schedule" below — out of scope for a static client-only tool, and a genuine architectural decision for whoever owns this next.
+
+---
+
+## Known Limitation — Facility "Available Capacity" Isn't Modeled
+
+The statute's actual trigger condition (§ 23-18.9-17(a)(2)) is distance to an authorized facility "with available capacity to accept such material" — not just distance. The calculator only checks distance; the `Facility` type (`types/index.ts`) has no capacity field, and every facility in the dataset is treated as though it always has open capacity.
+
+**Why this can't be computed, only disclosed:** `rhodewaste_facilities.json` already has a `notes` field on every one of the 10 facilities, and it was never rendered anywhere in the UI before this fix — checked via a full-file grep, zero matches in `src/`. Several of those notes are genuine capacity/status caveats the original maintainer already knew mattered (e.g. Michael Bradlee Composting Operation: *"Small-scale operation per RIDEM. Verify capacity before presenting as available facility."*), but they exist only as free-text notes, not a structured, queryable capacity field — meaning RIDEM's public inventory doesn't appear to expose reliable, real-time capacity data to build an automated check against in the first place.
+
+**Mitigation shipped (Jul 2026):** added a sentence to the existing "comply" result text in `ResultCard.tsx` — *"Facility capacity and operating status can change — confirm directly with the facility before relying on this result, especially for smaller-scale operations."* Same pattern as the exempt-staleness disclosure above: this discloses the limitation, it doesn't resolve it.
+
+**Data-hygiene note for future facility updates:** the `notes` field currently mixes two different audiences — some entries are written as instructions to whoever maintains the dataset ("verify still active before presenting to users," "verify status with RIDEM before next quarterly check"), which read strangely if ever shown to an end user, while others (e.g. "Block Island only — accessible by ferry") are genuinely useful facts a user would want to know if that facility turns out to be their nearest one. Keep `notes` strictly maintainer-internal going forward. If a specific facility caveat is ever important enough to show end users directly, give it its own dedicated field (e.g. `publicCaveat`) rather than blending it into `notes` — don't render `notes` verbatim under any circumstances.
 
 ---
 
@@ -193,6 +206,28 @@ These apply at build time. Flag any unresolved items before launch. Status as of
 
 ---
 
+## Automated Testing & CI
+
+**Before July 2026, there was no automated test suite at all** — every verification in this project's history (statutory scenarios, accessibility states, mobile layout, etc.) was a one-off script written, run, and discarded in the moment. Nothing persisted to catch a future regression automatically, and CI (`.github/workflows/security-check.yml`, now renamed "CI Checks" in the Actions UI) only ran a custom secrets-scanning script — it never ran the build or a type-check, so a broken build could have reached `main` undetected.
+
+**What was added — logic tests:**
+- **Vitest** (a devDependency only — nothing shipped to production) with three test files: `src/lib/calculations.test.ts` and `src/lib/validation.test.ts` (unit tests for the pure calculation/validation logic), and `src/scenarios.test.ts` (the three prototype scenarios from `README.md` — CCRI/higher-ed-comply, K-12-below-threshold, commercial-entity-exempt — run end-to-end through the real production data and logic, not mocks).
+
+**What was added — component tests (same day, expanded scope):**
+- `@testing-library/react`, `@testing-library/jest-dom`, `@testing-library/user-event`, and `jsdom` as devDependencies. Vitest's environment is now `"jsdom"` (was `"node"`) with a setup file at `src/vitest.setup.ts` that registers jest-dom's matchers and runs `cleanup()` after every test.
+- `src/components/ResultCard.test.tsx` — asserts exactly which notices render for which entity-type/status combinations (the higher-ed per-building caveat, the recordkeeping note, the exempt-staleness disclosure, the geocode-fallback notice). `FacilityMap` is mocked out in this file (and in `App.test.tsx`) since it renders real Leaflet output that needs actual browser layout — jsdom doesn't provide one, and the map isn't what these tests are checking anyway.
+- `src/app/App.test.tsx` — one full interaction test: fill the form, click Calculate, confirm the Hero intro strip disappears. This exercises exactly the class of "wiring" bug this session hit repeatedly (a state update not reaching the component that's supposed to react to it), which the pure logic tests structurally can't catch.
+- `src/components/Header.test.tsx` — the mobile info-menu's open/close/click-through/outside-click logic. **Important gotcha documented in the test file itself:** the desktop "How it works"/"Important things to know" text links are always present in the jsdom DOM tree — they're hidden on mobile via a Tailwind `hidden sm:flex` class, and jsdom has no real layout engine to evaluate that media query. Every query in this file is scoped to the popover container (`#header-info-menu`) specifically to avoid colliding with the always-present desktop buttons. This is a general limitation of component testing responsive/CSS-driven visibility — the Playwright screenshot checks done throughout this project's history are what actually verify that kind of thing, not these tests.
+- **Real bug caught while writing these tests, not a hypothetical:** the first version had no `afterEach(cleanup)` registered, so DOM from one test was still present when the next test's assertions ran — later tests were finding stale elements left over from earlier ones and failing with "multiple elements found" or false negatives. Fixed in `src/vitest.setup.ts`.
+- **Deliberately still not included:** the Nominatim/exact-address geocoding path (would need `fetch` mocked — the default zip-only submission path never calls it, so it wasn't required for the tests above) and full Playwright end-to-end browser tests. Reasonable things to add later, not gaps being ignored.
+- 36 tests total across 6 files, all passing.
+
+**CI now runs, in order:** `npm run lint` (type-check) → `npm test` → `npm run build` → the existing `npm run security:check`. A broken build, a type error, or a failing test now blocks a bad `main` push the same way the security scan already did.
+
+**Running tests locally:** `npm test` (runs once and exits — use `npx vitest` directly for watch mode during development).
+
+---
+
 ## Compliance and Privacy Requirements
 
 - If any personal information is collected from Rhode Island users, a privacy notice must be published stating what is collected, why, how long it is kept, and whether it is shared
@@ -249,19 +284,19 @@ If this tool is handed off to RIDEM or RIFPC for ongoing maintenance, a non-tech
 
 | Date | What Changed | Updated By |
 |---|---|---|
-| May 2026 | Initial dataset compiled from RIDEM facility inventory (May 4, 2026) and agricultural permit list | [Your Name] |
-| May 2026 | Hauler directory source updated from CET to RIRRC. Legal, build, security, and compliance requirements added. Scheduled maintenance checks added. | [Your Name] |
-| Jul 2026 | Full prototype build completed (calculator, facility map, How It Works, Hauler Directory with real RIRRC/RIFPC-verified contact data) and legality-checked against the Project Seed Checklist. | [Your Name] |
-| Jul 2026 | Tool renamed Comply RI → RhodeWaste — Organics Navigator throughout (code, data files, docs). GitHub repo renamed to match. | [Your Name] |
-| Jul 2026 | Vite upgraded 5→8 (with a matching @vitejs/plugin-react bump) to resolve 2 npm audit vulnerabilities. 0 vulnerabilities as of this date. | [Your Name] |
-| Jul 2026 | Statute re-verified directly against the primary source (webserver.rilegislature.gov, full verbatim text, not a summary). Confirmed thresholds unchanged; discovered the § 23-18.9-17(c) tipping-fee waiver was previously undisclosed in the tool. Added a popup + How It Works section disclosing it for the 52-ton and 104-ton categories (not applicable to K–12). | [Your Name] |
-| Jul 2026 | Added an optional "exact address" precision mode (Nominatim geocoding) alongside the default zip-centroid method, since the statute measures from the entity's actual location, not a zip code. Falls back to zip-centroid on any lookup failure. See External Dependencies and the Geocoding note above. | [Your Name] |
-| Jul 2026 | Added a share feature (native Web Share API + clipboard fallback) for above-threshold results, and Open Graph / Twitter Card social-preview tags. | [Your Name] |
-| Jul 2026 | First formal WCAG 2.1 AA accessibility audit — automated (axe-core) + manual keyboard/focus testing across every page state. Fixed: insufficient text contrast on status-chip colors, a focus-trap gap in both popup dialogs, a dangling ARIA reference on tab switch, missing status announcements for screen readers on calculation results, and insufficient border contrast on form controls. 0 violations as of this audit. See Accessibility Compliance above. | [Your Name] |
-| Jul 2026 | Fixed a wording bug where the 15-mile distance disclosure implied the law requires zip-centroid measurement (it only requires straight-line vs. driving distance — zip-centroid is the tool's own default approximation). | [Your Name] |
-| Jul 2026 | Second compliance audit against primary statutory text (§ 23-18.9-7, § 23-18.9-18) found three gaps: the 104-ton category's label overstated the statute's specific enumerated "covered entity" list; the 52-ton higher-ed threshold is legally measured per building, not campus-wide; and the § 23-18.9-18 recordkeeping requirement was undisclosed. Added a "See exact legal definitions" toggle on the calculator (verbatim statutory text per category) and a new "Important things to know" panel covering all three. Relabeled the 104-ton category from "All other generators (municipal, institutional)" to "Commercial or institutional entity." See "Entity Category Accuracy" above for full detail. | [Your Name] |
-| Jul 2026 | Mobile layout pass: fixed the header title truncating on narrow screens, the hero text's misaligned indent, and collapsed the "How it works" / "Important things to know" links into a single info-icon menu on mobile (desktop unchanged). Re-ran `npm audit` (0 vulnerabilities) and the axe-core accessibility audit afterward — caught and fixed one pre-existing landmark issue in `Hero.tsx` unrelated to these changes; 0 violations after the fix. Confirmed the entity-type values, thresholds, and calculation logic were untouched by any of this session's UI/label work. See Accessibility Compliance above. | [Your Name] |
+| May 2026 | Initial dataset compiled from RIDEM facility inventory (May 4, 2026) and agricultural permit list | dsrssntn-a11y |
+| May 2026 | Hauler directory source updated from CET to RIRRC. Legal, build, security, and compliance requirements added. Scheduled maintenance checks added. | dsrssntn-a11y |
+| Jul 2026 | Full prototype build completed (calculator, facility map, How It Works, Hauler Directory with real RIRRC/RIFPC-verified contact data) and legality-checked against the Project Seed Checklist. | dsrssntn-a11y |
+| Jul 2026 | Tool renamed Comply RI → RhodeWaste — Organics Navigator throughout (code, data files, docs). GitHub repo renamed to match. | dsrssntn-a11y |
+| Jul 2026 | Vite upgraded 5→8 (with a matching @vitejs/plugin-react bump) to resolve 2 npm audit vulnerabilities. 0 vulnerabilities as of this date. | dsrssntn-a11y |
+| Jul 2026 | Statute re-verified directly against the primary source (webserver.rilegislature.gov, full verbatim text, not a summary). Confirmed thresholds unchanged; discovered the § 23-18.9-17(c) tipping-fee waiver was previously undisclosed in the tool. Added a popup + How It Works section disclosing it for the 52-ton and 104-ton categories (not applicable to K–12). | dsrssntn-a11y |
+| Jul 2026 | Added an optional "exact address" precision mode (Nominatim geocoding) alongside the default zip-centroid method, since the statute measures from the entity's actual location, not a zip code. Falls back to zip-centroid on any lookup failure. See External Dependencies and the Geocoding note above. | dsrssntn-a11y |
+| Jul 2026 | Added a share feature (native Web Share API + clipboard fallback) for above-threshold results, and Open Graph / Twitter Card social-preview tags. | dsrssntn-a11y |
+| Jul 2026 | First formal WCAG 2.1 AA accessibility audit — automated (axe-core) + manual keyboard/focus testing across every page state. Fixed: insufficient text contrast on status-chip colors, a focus-trap gap in both popup dialogs, a dangling ARIA reference on tab switch, missing status announcements for screen readers on calculation results, and insufficient border contrast on form controls. 0 violations as of this audit. See Accessibility Compliance above. | dsrssntn-a11y |
+| Jul 2026 | Fixed a wording bug where the 15-mile distance disclosure implied the law requires zip-centroid measurement (it only requires straight-line vs. driving distance — zip-centroid is the tool's own default approximation). | dsrssntn-a11y |
+| Jul 2026 | Second compliance audit against primary statutory text (§ 23-18.9-7, § 23-18.9-18) found three gaps: the 104-ton category's label overstated the statute's specific enumerated "covered entity" list; the 52-ton higher-ed threshold is legally measured per building, not campus-wide; and the § 23-18.9-18 recordkeeping requirement was undisclosed. Added a "See exact legal definitions" toggle on the calculator (verbatim statutory text per category) and a new "Important things to know" panel covering all three. Relabeled the 104-ton category from "All other generators (municipal, institutional)" to "Commercial or institutional entity." See "Entity Category Accuracy" above for full detail. | dsrssntn-a11y |
+| Jul 2026 | Mobile layout pass: fixed the header title truncating on narrow screens, the hero text's misaligned indent, and collapsed the "How it works" / "Important things to know" links into a single info-icon menu on mobile (desktop unchanged). Re-ran `npm audit` (0 vulnerabilities) and the axe-core accessibility audit afterward — caught and fixed one pre-existing landmark issue in `Hero.tsx` unrelated to these changes; 0 violations after the fix. Confirmed the entity-type values, thresholds, and calculation logic were untouched by any of this session's UI/label work. See Accessibility Compliance above. | dsrssntn-a11y |
 
 ---
 
-*Document owner: [Your Name] | Next review: [Date + 3 months]*
+*Document owner: dsrssntn-a11y | Next review: October 2026 (3 months from last update)*
