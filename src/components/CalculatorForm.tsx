@@ -140,8 +140,16 @@ export default function CalculatorForm({
                 placeholder="Johnston"
               />
               <p className="text-xs text-fog-gray">
-                This address is sent to OpenStreetMap's free public geocoding service to find its
-                coordinates — it is not stored by this tool.
+                This address is sent to OpenStreetMap's free public geocoding service (
+                <a
+                  href="https://nominatim.openstreetmap.org"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline underline-offset-2 hover:text-bay-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bay-blue/50 rounded"
+                >
+                  Search by Nominatim
+                </a>
+                ) to find its coordinates — it is not stored by this tool.
               </p>
             </div>
           ) : null}

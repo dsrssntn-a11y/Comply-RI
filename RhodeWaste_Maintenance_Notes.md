@@ -86,6 +86,26 @@ For a security/IT review: this is the complete list of external services the too
 
 ---
 
+## Legal/Liability Review — July 2026
+
+A liability-focused review (separate from the statutory-accuracy audit earlier in this document) found three items. All three have been addressed — one (#1) is flagged to revisit at ownership handoff, not because it's unresolved now.
+
+**1. No limitation-of-liability language existed anywhere in the tool.** Added an "as is, at your own risk" sentence to the footer disclaimer (`Footer.tsx`), alongside the existing "not legal advice" language. Deliberately doesn't name a specific liable party — no formal legal entity is attached to this project yet, and naming one prematurely could create more confusion than it resolves. **Revisit this wording once RIDEM or another formal owner takes over.** A government-owned tool typically operates under sovereign immunity / state tort-claims-act protections that a privately-run project doesn't have, so the language may need to change — or could potentially be simplified or removed entirely — once that transfer happens. Don't assume the current wording is still the right call at that point; re-evaluate it as part of the handoff, not carry it forward by default.
+
+**2. Nominatim's attribution requirement wasn't fully met.** Their usage policy (separate from the rate-limit and User-Agent/Referer requirements documented above) requires "Search by Nominatim" text, their logo, or a hyperlink to nominatim.openstreetmap.org, adjacent to the search box or search results. Added as a hyperlink inside the existing address-mode note in `CalculatorForm.tsx`.
+
+**3. Branding may read as official before RIDEM has actually adopted this tool — researched and resolved (Jul 2026).** "RhodeWaste — Organics Navigator," combined with a Rhode-Island-shaped/state-colored mark, could lead a visitor to reasonably assume this is an official state product when it's currently an independent project. Two things were done:
+
+- **Disclosure added:** an explicit *"This is an independent project, not officially affiliated with or endorsed by RIDEM"* disclosure in amber, in both the hero section (`Hero.tsx`) and the footer (`Footer.tsx`), so it's visible regardless of whether a result is showing (the hero hides after a calculation; the footer doesn't).
+- **Checked against the primary source** — three statutes, verified verbatim via webserver.rilegislature.gov (not a summary):
+  - *§ 42-4-2 (State seal)*: defines the actual protected seal as circular, bearing an anchor, the motto "Hope," ringed with "Seal of the State of Rhode Island, 1636." `RhodeIslandMark.tsx` is a rounded square containing a leaf — no anchor, no motto, no encircling text, not circular. Shares no design element with the actual seal.
+  - *§ 11-15-4 (Unauthorized commercial use of state emblems)*: only reaches "the state seal, the state coat of arms, or a facsimile or imitation of them." Since the app's mark doesn't resemble either (per the comparison above), this statute doesn't apply to it.
+  - *§ 6-13.1-2 (Deceptive trade practices — RI's general UDAP statute)*: not seal-specific — this is the one actually relevant to an "implies government affiliation" concern, and it's the one the disclosure above was added to directly address.
+
+**Conclusion:** the seal-specific statutes don't apply (the mark bears no resemblance to the protected seal), and the general deceptive-practices statute is addressed by the disclosure already in place. This is no longer an open question — re-verify only if the mark's design or the app's name changes materially in the future.
+
+---
+
 ## Facility Data: How to Update
 
 ### Step 1 — Check RIDEM's inventory

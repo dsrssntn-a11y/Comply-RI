@@ -12,6 +12,9 @@ export default function Hero() {
         <div>
           <p className="hero-statement">{COPY.heroStatement}</p>
           <p className="civic-trust">{COPY.civicTrustLine}</p>
+          <p className="text-xs sm:text-sm font-semibold text-slate-amber mt-1">
+            This is an independent project, not officially affiliated with or endorsed by RIDEM.
+          </p>
         </div>
       </div>
     </section>
