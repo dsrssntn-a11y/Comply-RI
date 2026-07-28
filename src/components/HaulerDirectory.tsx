@@ -12,13 +12,11 @@ function ContactLine({
   href?: string;
   external?: boolean;
 }) {
-  const isMissing = value === "Not listed";
+  if (value === "Not listed") return null;
   return (
     <p className="text-sm">
       <span className="text-fog-gray">{label}: </span>
-      {isMissing || !href ? (
-        <span className={isMissing ? "text-fog-gray italic" : "text-fog-gray"}>{value}</span>
-      ) : (
+      {href ? (
         <a
           href={href}
           target={external ? "_blank" : undefined}
@@ -27,6 +25,8 @@ function ContactLine({
         >
           {value}
         </a>
+      ) : (
+        <span className="text-fog-gray">{value}</span>
       )}
     </p>
   );

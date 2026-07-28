@@ -91,6 +91,7 @@ export default function ResultCard({
       ) : null}
 
       <div className="space-y-2">
+        <p className="text-xs font-semibold text-fog-gray uppercase tracking-wide">Your result</p>
         <ThresholdBadge status={complianceStatus} />
 
         <p className="text-xs text-fog-gray">
@@ -197,8 +198,15 @@ export default function ResultCard({
             </span>
           </p>
           <p className="text-xs text-fog-gray mt-0.5">
-            Measured as straight-line distance ("as the crow flies"), as the law requires — not
-            driving distance, so a map app will likely show a different number.{" "}
+            Straight-line distance, not driving distance —{" "}
+            <button
+              type="button"
+              onClick={onOpenHowItWorks}
+              className="underline underline-offset-2 hover:text-harbor-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bay-blue/50 rounded"
+            >
+              see How it works
+            </button>
+            .{" "}
             {locationSource === "exact-address"
               ? "This result uses your exact address."
               : "This result uses your zip code's center point as an estimate of your location — for a more precise result, enter your exact address above."}
@@ -273,7 +281,7 @@ export default function ResultCard({
           Calculate another result
         </button>
         <p className="text-xs text-fog-gray mt-0.5">
-          Update any field above and calculate again — nothing you've entered will be cleared.
+          Update any field above and calculate again — your other entries will remain unchanged.
         </p>
       </div>
 

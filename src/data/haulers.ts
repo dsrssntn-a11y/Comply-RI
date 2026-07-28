@@ -22,6 +22,17 @@ export const HAULERS: HaulerListing[] = [
     website: "bootstrapcompost.com",
   },
   {
+    hauler_name: "Epic Renewal",
+    verified_service:
+      "Zero waste consulting and organics collection. Best suited to organizations looking for a long-term waste reduction strategy, not transactional pickup only. Volume clients may be referred to partner haulers. Contact by email only to discuss fit before committing.",
+    service_area:
+      "Rhode Island — availability depends on location, volume, and fit. Contact to confirm.",
+    phone: "Not listed",
+    email: "support@epicrenewal.org",
+    address: "Not listed",
+    website: "epicrenewal.org",
+  },
+  {
     hauler_name: "Harvest Cycle",
     verified_service: "Food scrap collection for residents, restaurants, and small businesses.",
     service_area: "Providence and surrounding areas.",

@@ -80,6 +80,10 @@ The statute's actual trigger condition (§ 23-18.9-17(a)(2)) is distance to an a
 
 **Note on hauler directory source:** CET no longer maintains a publicly available RI service providers list. RIRRC is now the primary hauler source. The RIRRC list does not indicate which haulers handle food waste specifically — the curated organics-capable hauler list in this tool is verified separately via RIFPC outreach and should be re-verified quarterly.
 
+**Additional resource (Jul 2026):** RIRRC forwarded https://www.zerowasteprovidence.com/resources while confirming the hauler list. Not shown in the app itself — recorded here as a useful cross-reference for the next hauler-directory verification cycle.
+
+**Epic Renewal (added Jul 2026)** — verified against https://www.providenceri.gov/sustainability/compost/, which lists Epic Renewal alongside several other haulers already in this directory (Harvest Cycle, ReMix Organics, Black Earth Compost, City Compost). This source URL is not shown in the app itself — it's recorded here for the next verification cycle. Contact is email-only (no phone or address currently listed); framed in the directory as a zero-waste consulting service best suited to organizations wanting a long-term strategy rather than transactional pickup, per the business's own positioning — not a typical pickup-only hauler like the rest of the list.
+
 **Pending action items (in progress as of Jul 2026):** the facility inventory and agricultural permit rechecks flagged as overdue above are now underway, not just identified:
 1. Emailed RIDEM — **Nathan Arruda (nathan.arruda@dem.ri.gov)**, POC for authorized/permitted solid waste facilities — to confirm current facility data.
 2. Emailed **Tyler Hertzwig (tyler.hertzwig@dem.ri.gov)**, POC for agricultural composting operations — to confirm current agricultural composting permit status.
