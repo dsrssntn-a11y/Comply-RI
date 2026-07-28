@@ -13,6 +13,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<TabId>("calculator");
   const [howItWorksOpen, setHowItWorksOpen] = useState(false);
   const [importantToKnowOpen, setImportantToKnowOpen] = useState(false);
+  const [definitionsOpen, setDefinitionsOpen] = useState(false);
   const [hasResult, setHasResult] = useState(false);
 
   useEffect(() => {
@@ -35,18 +36,30 @@ export default function App() {
     });
   }, [importantToKnowOpen]);
 
+  useEffect(() => {
+    if (!definitionsOpen) return;
+    requestAnimationFrame(() => {
+      document.getElementById("entity-definitions-panel")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  }, [definitionsOpen]);
+
   return (
     <div className="min-h-screen flex flex-col bg-cloud-white">
       <Header
         activeTab={activeTab}
         onTabChange={(tab) => {
           setActiveTab(tab);
-          // HowItWorks/ImportantToKnow only render inside the calculator tab —
-          // close them when navigating away so aria-controls/aria-expanded on
-          // these buttons never reference an unmounted element.
+          // HowItWorks/ImportantToKnow/entity-definitions panels only render
+          // inside the calculator tab — close them when navigating away so
+          // aria-controls/aria-expanded on these buttons never reference an
+          // unmounted element.
           if (tab !== "calculator") {
             setHowItWorksOpen(false);
             setImportantToKnowOpen(false);
+            setDefinitionsOpen(false);
           }
         }}
         howItWorksOpen={howItWorksOpen}
@@ -60,7 +73,15 @@ export default function App() {
           setImportantToKnowOpen((open) => !open);
         }}
       />
-      {activeTab === "calculator" && hasResult ? null : <Hero />}
+      {activeTab === "calculator" && hasResult ? null : (
+        <Hero
+          activeTab={activeTab}
+          onOpenEntityDefinitions={() => {
+            setActiveTab("calculator");
+            setDefinitionsOpen(true);
+          }}
+        />
+      )}
       <PageLayout>
         <div
           id={`tabpanel-${activeTab}`}
@@ -79,6 +100,8 @@ export default function App() {
                 onOpenHowItWorks={() => setHowItWorksOpen(true)}
                 onOpenImportantToKnow={() => setImportantToKnowOpen(true)}
                 onResultChange={setHasResult}
+                definitionsOpen={definitionsOpen}
+                onToggleDefinitions={() => setDefinitionsOpen((open) => !open)}
               />
             </>
           ) : (

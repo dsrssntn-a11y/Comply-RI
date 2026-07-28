@@ -43,11 +43,12 @@ export default function HaulerSuggestionModal({
         className="bg-surface-white rounded-xl shadow-lg max-w-sm w-full p-5"
       >
         <p id="hauler-suggestion-title" className="text-sm font-semibold text-harbor-blue mb-1.5">
-          No facility within reach?
+          No facility within reach — but you can still divert
         </p>
         <p className="text-sm text-fog-gray mb-4">
-          If you can't reach the facility, check out the Hauler Directory to arrange pickup and
-          get your food waste off your hands.
+          State law doesn't require this since no authorized facility is within 15 miles. A hauler
+          can still bridge that distance gap, though, picking up your material and transporting
+          it to one farther away. It's entirely voluntary, but every ton diverted still helps.
         </p>
         <div className="flex gap-2">
           <button

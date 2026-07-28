@@ -48,10 +48,7 @@ export default function ImportantToKnow({ open, onClose }: ImportantToKnowProps)
           Separate recordkeeping requirement
         </p>
         <p>
-          Independent of the diversion requirement this tool checks, covered entities and covered
-          educational institutions — the commercial/institutional and higher-ed categories, not
-          K–12 — must also keep a written record of the solid waste they generate and the organic
-          waste they recycle, and make those records available to RIDEM upon request (
+          Independent of the diversion requirement this tool checks,{" "}
           <a
             href="https://webserver.rilegislature.gov/Statutes/TITLE23/23-18.9/23-18.9-18.htm"
             target="_blank"
@@ -59,10 +56,14 @@ export default function ImportantToKnow({ open, onClose }: ImportantToKnowProps)
             className="underline underline-offset-2 hover:text-bay-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bay-blue/50 rounded"
           >
             R.I. Gen. Laws § 23-18.9-18
-          </a>
-          ). This applies regardless of whether the diversion requirement above turns out to apply
-          to you. This tool doesn't track or generate those records — it only estimates whether the
-          diversion requirement applies.
+          </a>{" "}
+          separately requires covered entities and covered educational institutions — the
+          commercial/institutional and higher-ed categories, not K–12 — to keep a written record
+          of the solid waste they generate and the organic waste they recycle, and to make those
+          records available to RIDEM upon request. This applies regardless of whether the
+          diversion requirement above turns out to apply to you. This isn't legal advice, and this
+          tool doesn't track or generate those records for you — confirm your specific
+          recordkeeping obligations with RIDEM.
         </p>
       </div>
 

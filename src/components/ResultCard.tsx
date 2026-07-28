@@ -182,6 +182,30 @@ export default function ResultCard({
         </div>
       ) : null}
 
+      {complianceStatus === "comply" ? (
+        <div className="border-t border-mist-gray pt-4">
+          <p className="text-sm font-bold text-harbor-blue mb-2">What to do next</p>
+          <ol className="space-y-2 text-sm text-harbor-blue list-decimal list-inside">
+            <li>
+              Contact the nearest authorized facility directly to confirm they accept your
+              material and discuss delivery arrangements — whether you transport it yourself or
+              arrange collection through a hauler.
+            </li>
+            <li>
+              Don't have a way to transport it yourself? Browse the{" "}
+              <button
+                type="button"
+                onClick={onNavigateToHaulers}
+                className="underline underline-offset-2 hover:text-bay-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bay-blue/50 rounded"
+              >
+                Hauler Directory
+              </button>{" "}
+              for verified haulers who can handle pickup for you.
+            </li>
+          </ol>
+        </div>
+      ) : null}
+
       <Disclaimer variant="output" />
 
       <HaulerSuggestionModal

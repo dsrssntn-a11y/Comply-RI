@@ -73,8 +73,9 @@ export default function HaulerDirectory() {
       <div>
         <h2 className="text-harbor-blue font-semibold text-lg">Hauler Directory</h2>
         <p className="text-sm text-fog-gray mt-0.5">
-          A static, curated list of organics-capable haulers operating in Rhode Island — a service
-          directory, not a legal determination.
+          A static, curated list of haulers who can pick up and transport your food waste to an
+          authorized facility, so you don't have to haul it yourself — a service directory, not a
+          legal determination.
         </p>
       </div>
 

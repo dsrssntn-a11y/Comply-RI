@@ -18,6 +18,8 @@ interface CalculatorFormProps {
   onOpenHowItWorks: () => void;
   onOpenImportantToKnow: () => void;
   onResultChange: (hasResult: boolean) => void;
+  definitionsOpen: boolean;
+  onToggleDefinitions: () => void;
 }
 
 export default function CalculatorForm({
@@ -25,12 +27,13 @@ export default function CalculatorForm({
   onOpenHowItWorks,
   onOpenImportantToKnow,
   onResultChange,
+  definitionsOpen,
+  onToggleDefinitions,
 }: CalculatorFormProps) {
   const { values, errors, submitted, isGeocoding, setField, handleSubmit } =
     useFoodWasteCalculator();
   const [tonnageMode, setTonnageMode] = useState<TonnageMode>("direct");
   const [addressMode, setAddressMode] = useState(false);
-  const [definitionsOpen, setDefinitionsOpen] = useState(false);
 
   useEffect(() => {
     onResultChange(submitted !== null);
@@ -39,6 +42,7 @@ export default function CalculatorForm({
   return (
     <div>
       <h2 className="sr-only">Compliance Calculator</h2>
+
       <div className="max-w-[640px] mx-auto bg-surface-white border border-mist-gray rounded-xl shadow-sm p-6 space-y-5">
         <div>
           <SelectField
@@ -54,7 +58,9 @@ export default function CalculatorForm({
 
           <button
             type="button"
-            onClick={() => setDefinitionsOpen((open) => !open)}
+            onClick={onToggleDefinitions}
+            aria-expanded={definitionsOpen}
+            aria-controls="entity-definitions-panel"
             className="mt-1.5 text-xs text-bay-blue hover:text-harbor-blue underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bay-blue/50 rounded"
           >
             {definitionsOpen
@@ -63,7 +69,10 @@ export default function CalculatorForm({
           </button>
 
           {definitionsOpen ? (
-            <div className="mt-2 space-y-3 rounded-xl border border-mist-gray bg-cloud-white p-3">
+            <div
+              id="entity-definitions-panel"
+              className="mt-2 space-y-3 rounded-xl border border-mist-gray bg-cloud-white p-3"
+            >
               {ENTITY_DEFINITIONS.map((def) => {
                 const optionLabel = ENTITY_TYPE_OPTIONS.find(
                   (option) => option.value === def.value
