@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="border-t border-mist-gray mt-auto">
+    <footer className="print:hidden border-t border-mist-gray mt-auto">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 text-xs text-fog-gray space-y-2">
         <p>
           This tool provides general information only and does not constitute legal advice. It is

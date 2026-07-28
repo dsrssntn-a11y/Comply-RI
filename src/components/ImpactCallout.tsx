@@ -6,6 +6,7 @@ import { COPY } from "../data/copy";
 interface ImpactCalloutProps {
   tonnage: number;
   shareable?: boolean;
+  voluntary?: boolean;
 }
 
 function LeafSparkleIcon() {
@@ -34,7 +35,7 @@ function LeafSparkleIcon() {
   );
 }
 
-export default function ImpactCallout({ tonnage, shareable }: ImpactCalloutProps) {
+export default function ImpactCallout({ tonnage, shareable, voluntary }: ImpactCalloutProps) {
   const [copied, setCopied] = useState(false);
 
   async function handleShare() {
@@ -66,8 +67,17 @@ export default function ImpactCallout({ tonnage, shareable }: ImpactCalloutProps
         {formatTons(tonnage)}
       </p>
       <p className="text-sm text-fog-gray mt-1 max-w-sm mx-auto">
-        If this entity complies with the RI food waste ban, an estimated {formatTons(tonnage)} of
-        organic waste will be diverted from landfill annually.{" "}
+        {voluntary ? (
+          <>
+            If this entity voluntarily diverts, an estimated {formatTons(tonnage)} of organic
+            waste would be kept out of the landfill annually.
+          </>
+        ) : (
+          <>
+            If this entity complies with the RI food waste ban, an estimated {formatTons(tonnage)}{" "}
+            of organic waste will be diverted from landfill annually.
+          </>
+        )}{" "}
         {shareable ? (
           <button
             type="button"

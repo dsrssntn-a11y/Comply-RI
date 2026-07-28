@@ -31,7 +31,7 @@ export default function HaulerSuggestionModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-harbor-blue/40 px-4"
+      className="print:hidden fixed inset-0 z-50 flex items-center justify-center bg-harbor-blue/40 px-4"
       onClick={onDismiss}
     >
       <div

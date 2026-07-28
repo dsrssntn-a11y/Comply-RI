@@ -43,7 +43,7 @@ export default function CalculatorForm({
     <div>
       <h2 className="sr-only">Compliance Calculator</h2>
 
-      <div className="max-w-[640px] mx-auto bg-surface-white border border-mist-gray rounded-xl shadow-sm p-6 space-y-5">
+      <div className="print:hidden max-w-[640px] mx-auto bg-surface-white border border-mist-gray rounded-xl shadow-sm p-6 space-y-5">
         <div>
           <SelectField
             id="entity-type"
