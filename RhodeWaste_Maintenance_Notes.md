@@ -81,8 +81,8 @@ The statute's actual trigger condition (§ 23-18.9-17(a)(2)) is distance to an a
 **Note on hauler directory source:** CET no longer maintains a publicly available RI service providers list. RIRRC is now the primary hauler source. The RIRRC list does not indicate which haulers handle food waste specifically — the curated organics-capable hauler list in this tool is verified separately via RIFPC outreach and should be re-verified quarterly.
 
 **Pending action items (in progress as of Jul 2026):** the facility inventory and agricultural permit rechecks flagged as overdue above are now underway, not just identified:
-1. Emailed RIDEM to confirm current facility data.
-2. Emailed Tyler Hertzwig to confirm current agricultural composting permit status.
+1. Emailed RIDEM — **Nathan Arruda (nathan.arruda@dem.ri.gov)**, POC for authorized/permitted solid waste facilities — to confirm current facility data.
+2. Emailed **Tyler Hertzwig (tyler.hertzwig@dem.ri.gov)**, POC for agricultural composting operations — to confirm current agricultural composting permit status.
 3. Plan to recheck the facility data and compile updated contact information once responses come back.
 
 Update `src/data/facilities.ts` / `rhodewaste_facilities.json` and this document's "Last verified" dates once these come back — don't let the reply sit unactioned once it arrives.
