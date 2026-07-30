@@ -64,10 +64,20 @@ export const HAULERS: HaulerListing[] = [
   {
     hauler_name: "Republic Services / Allied Waste Services",
     verified_service: "Organic and food waste disposal.",
-    service_area: "All of Rhode Island.",
-    phone: "401-943-3553",
+    service_area: "Depends on location of service — may not service all of Rhode Island.",
+    phone: "800-825-3260",
     email: "awhite3@republicservices.com",
     address: "1080 Airport Rd, Fall River, MA 02720",
     website: "republicservices.com",
+  },
+  {
+    hauler_name: "Zero Waste Solutions",
+    verified_service:
+      "Scheduled organic and yard waste collection, including food scrap pickup and bulk yard waste removal, with composting services that divert collected material to composting facilities.",
+    service_area: "Throughout Rhode Island.",
+    phone: "925-270-3339",
+    email: "info@zerowastesolutions.com",
+    address: "1630 W Main Rd, Portsmouth, RI 02871",
+    website: "zerowastesolutions.com/services/organic-and-yard-waste/",
   },
 ];
