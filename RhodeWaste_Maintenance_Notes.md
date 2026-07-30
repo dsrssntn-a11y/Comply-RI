@@ -101,7 +101,12 @@ This is a good argument for real-device spot-checks being worth doing occasional
 
 **Additional hauler data updates from this same review pass (Jul 2026):**
 - **Black Earth Compost** — email corrected to `service@blackearthcompost.com` (was `grobe@blackearthcompost.com`).
-- **Republic Services / Allied Waste Services — pending verification, not yet acted on.** Their listed phone (`401-943-3553`) and email (`awhite3@republicservices.com`) could not be verified as currently correct during this review. Nothing has been changed in the data yet — this is flagged here specifically so it isn't lost before the next quarterly hauler check, which should prioritize confirming (or correcting/removing) this contact info the same way City Compost and PF Trading were just resolved.
+
+**Republic Services / Allied Waste Services — verified by phone call (Jul 29, 2026).** Called and confirmed directly: organics/food-waste capability, RI service area, and service-area caveats. Service area is location-dependent and may not cover all of Rhode Island — data updated accordingly (`service_area`, phone `800-825-3260`). Their listed email (`awhite3@republicservices.com`) was not part of this call and remains unverified — still flagged for the next check.
+
+**Zero Waste Solutions (added Jul 2026)** — organics/food-waste capability and RI service area are confirmed directly on their own site (https://www.zerowastesolutions.com/services/organic-and-yard-waste/, FAQ section). The Portsmouth, RI address (1630 W Main Rd, Portsmouth, RI 02871) is also sourced from that same page, where it's listed as one of their office locations under "Areas We Serve." Phone and email were provided directly and not independently re-verified beyond that source page.
+
+**Footer date added (Jul 2026):** `Footer.tsx` now shows "Hauler directory last verified: July 2026" alongside the existing "Facility data last verified" line. Internally, this date is attributed to the hauler directory's RIRRC verification (per the sourcing note at the top of `src/data/haulers.ts`: "Sourced from Hauler-Verifiedfoodorganicsservice-RhodeIslandserv.csv (RIRRC/RIFPC verification)"). The Republic Services phone-call check and Zero Waste Solutions website verification (both noted above) are separate, additional confirmations done this cycle — not part of the RIRRC verification itself. Update this footer date at the next quarterly hauler check.
 
 ---
 
