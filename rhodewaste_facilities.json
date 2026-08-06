@@ -1,23 +1,12 @@
 [
   {
-    "facility_name": "Block Island Compost",
-    "facility_type": "composting",
-    "address": "16 Old Town Rd, New Shoreham, RI 02807",
-    "latitude": 41.1720384675219,
-    "longitude": -71.56424901268096,
-    "contact_name": "Town of New Shoreham",
-    "contact_phone": "",
-    "contact_email": "",
-    "notes": "Small-scale pilot project. Block Island only — accessible by ferry. Will not be nearest facility for mainland entities."
-  },
-  {
     "facility_name": "New Shoreham Food Recycling Facility",
     "facility_type": "composting",
     "address": "14 W Beach Rd, New Shoreham, RI 02807",
     "latitude": 41.20877380047818,
     "longitude": -71.57538230408227,
     "contact_name": "Town of New Shoreham",
-    "contact_phone": "",
+    "contact_phone": "401-466-2864 or 401-466-3234",
     "contact_email": "",
     "notes": "Small-scale pilot project. Block Island only — accessible by ferry. Will not be nearest facility for mainland entities."
   },
@@ -28,7 +17,7 @@
     "latitude": 41.83867312310967,
     "longitude": -71.43172746171494,
     "contact_name": "",
-    "contact_phone": "",
+    "contact_phone": "401-952-5533",
     "contact_email": "",
     "notes": "Small-scale operation per RIDEM. Verify capacity before presenting as available facility."
   },
@@ -39,8 +28,8 @@
     "latitude": 41.51535714170793,
     "longitude": -71.68288037522773,
     "contact_name": "Richmond Sand and Stone",
-    "contact_phone": "",
-    "contact_email": "",
+    "contact_phone": "401-539-7770",
+    "contact_email": "dispatch@richmondsand.necoxmail.com",
     "notes": "Active per RIDEM inventory May 4 2026."
   },
   {
@@ -49,9 +38,9 @@
     "address": "289 Scituate Ave, Johnston, RI 02919",
     "latitude": 41.806375833340965,
     "longitude": -71.51558836356686,
-    "contact_name": "",
-    "contact_phone": "",
-    "contact_email": "",
+    "contact_name": "Anaergia / facility contacts",
+    "contact_phone": "305-788-7645",
+    "contact_email": "Laura.Vanevic@anaergia.com",
     "notes": "Only active AD facility in Rhode Island. Primary facility for most mainland entities."
   },
   {
@@ -60,10 +49,10 @@
     "address": "89 County Drive, Charlestown, RI 02813",
     "latitude": 41.43701950904387,
     "longitude": -71.6004164463969,
-    "contact_name": "Mike Merner",
-    "contact_phone": "",
-    "contact_email": "",
-    "notes": "Accepts putrescibles (food waste). Permit active — renewed 11/21/2022. Verify still active before presenting to users."
+    "contact_name": "Mike Merner / Jane Merner",
+    "contact_phone": "401-364-9930",
+    "contact_email": "mike@earthcarefarm.com",
+    "notes": "Accepts putrescibles (food waste). Permit active — renewed 11/21/2022. Verify still active before presenting to users. Contact person naming differs across sources (listed as Mike Merner / Jane Merner)."
   },
   {
     "facility_name": "Schartner Corner Nursery",
@@ -94,9 +83,9 @@
     "latitude": 41.695848637244225,
     "longitude": -71.72726397521667,
     "contact_name": "Mark P. DePasquale",
-    "contact_phone": "",
-    "contact_email": "",
-    "notes": "Accepts leaf/yard waste, manure, and putrescibles (food waste is part of their compost recipe; also brings in plant material). Permit active, issued 11/22/2024 — confirmed directly with Tyler Hertzwig (RIDEM), Jul 2026. No renewal period in RI; a new permit is only required if the farm increases compostable tonnage, changes location, or changes ownership."
+    "contact_phone": "401-255-6568 or 401-295-4998",
+    "contact_email": "info@green-ri.com",
+    "notes": "Accepts leaf/yard waste, manure, and putrescibles (food waste is part of their compost recipe; also brings in plant material). Permit active, issued 11/22/2024 — confirmed directly with Tyler Hertzwig (RIDEM), Jul 2026. No renewal period in RI; a new permit is only required if the farm increases compostable tonnage, changes location, or changes ownership. Phone/email added from the Aug 2026 RIDEM facility data pull — that source itself flags them as not independently verified yet; confirm before relying on them for outreach."
   },
   {
     "facility_name": "Scobco",
@@ -105,8 +94,8 @@
     "latitude": 41.55486261474926,
     "longitude": -71.60112444561715,
     "contact_name": "Gregory Allan",
-    "contact_phone": "",
+    "contact_phone": "401-523-6882",
     "contact_email": "",
-    "notes": "Accepts plant waste and manure and putrescibles. Permit issued May 2025."
+    "notes": "Accepts plant waste and manure and putrescibles. Permit issued May 2025. Phone added from the Aug 2026 RIDEM facility data pull — that source itself flags it as not independently verified yet; confirm before relying on it for outreach."
   }
 ]
