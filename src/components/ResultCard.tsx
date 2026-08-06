@@ -180,12 +180,9 @@ export default function ResultCard({
               Get directions ↗
             </a>
           </p>
-          {nearestFacility.facility.contact_name || nearestFacility.facility.contact_phone ? (
+          {nearestFacility.facility.contact_phone ? (
             <p className="text-sm text-fog-gray">
-              Contact:{" "}
-              {[nearestFacility.facility.contact_name, nearestFacility.facility.contact_phone]
-                .filter(Boolean)
-                .join(" · ")}
+              Contact: {nearestFacility.facility.contact_phone}
             </p>
           ) : null}
           <p className="text-sm mt-1 tabular-nums">
