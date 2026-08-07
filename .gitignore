@@ -6,3 +6,6 @@ desktop.ini
 *.tsbuildinfo
 vite.config.js
 vite.config.d.ts
+
+.vercel
+.env*
