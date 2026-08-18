@@ -60,6 +60,7 @@ describe("findNearestFacility", () => {
       contact_name: "",
       contact_phone: "",
       contact_email: "",
+      accepted_materials: "",
       notes: "",
     },
     {
@@ -71,6 +72,7 @@ describe("findNearestFacility", () => {
       contact_name: "",
       contact_phone: "",
       contact_email: "",
+      accepted_materials: "",
       notes: "",
     },
   ];

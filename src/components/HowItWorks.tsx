@@ -34,6 +34,13 @@ export default function HowItWorks({ open, onClose }: HowItWorksProps) {
           You can enter your annual tonnage directly if you already know it — no conversion is
           applied in that case.
         </p>
+        <p className="mb-2">
+          Actual scale tickets or invoices covering a full 12 months are the most reliable source
+          for this figure, if you have them. Without complete records, a documented estimate based
+          on operating days and seasonal variation is a reasonable alternative. For material
+          collected in carts or totes without individual weights, a representative sort-and-weigh
+          sample — extrapolated and documented — is one common approach.
+        </p>
         <p>
           If you're working from raw waste tracking records instead (e.g. pickup weigh tickets
           logged over the year), use the "Calculate it from waste tracking records" option below
@@ -92,9 +99,19 @@ export default function HowItWorks({ open, onClose }: HowItWorksProps) {
           </a>{" "}
           if the tipping fee RIRRC charges for regular commercial waste is lower than the fee
           charged by every composting or anaerobic digestion facility within 15 miles — the
-          director must grant the waiver upon that showing. This tool can't calculate that,
-          since tipping-fee data isn't publicly compiled; contact RIDEM directly to inquire. This
-          waiver does not apply to the K–12 / educational-entity (30-ton) category.
+          director must grant the waiver upon that showing. This tool can't calculate that. The
+          statutory text does not state that this price waiver applies to subsection (d)'s 30-ton
+          educational-entity requirement, so treat that as a point requiring direct RIDEM
+          confirmation rather than assuming it applies. RIRRC{" "}
+          <a
+            href="https://rirrc.org/about/accepted-materials-pricing"
+            target="_blank"
+            rel="noreferrer"
+            className="underline underline-offset-2 hover:text-bay-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bay-blue/50 rounded"
+          >
+            publishes current fee materials
+          </a>{" "}
+          and directs price questions to its scalehouse at 401-228-3102.
         </p>
       </div>
 

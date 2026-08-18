@@ -13,6 +13,7 @@ export interface Facility {
   contact_name: string;
   contact_phone: string;
   contact_email: string;
+  accepted_materials: string;
   notes: string;
 }
 

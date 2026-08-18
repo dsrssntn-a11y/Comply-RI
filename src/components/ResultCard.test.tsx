@@ -19,6 +19,7 @@ const FACILITY: Facility = {
   contact_name: "",
   contact_phone: "",
   contact_email: "",
+  accepted_materials: "",
   notes: "",
 };
 

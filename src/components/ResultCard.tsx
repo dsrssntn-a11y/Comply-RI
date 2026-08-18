@@ -7,7 +7,13 @@ import HaulerSuggestionModal from "./HaulerSuggestionModal";
 import WaiverNoticeModal from "./WaiverNoticeModal";
 import { formatTons } from "../lib/formatters";
 import { FACILITY_SEARCH_RADIUS_MILES } from "../data/facilityRules";
-import type { SubmittedCalculatorValues } from "../types";
+import type { Facility, SubmittedCalculatorValues } from "../types";
+
+const FACILITY_TYPE_LABELS: Record<Facility["facility_type"], string> = {
+  composting: "Composting facility",
+  anaerobic_digestion: "Anaerobic digestion facility",
+  agricultural: "Agricultural composting facility",
+};
 
 interface ResultCardProps {
   submitted: SubmittedCalculatorValues;
@@ -185,6 +191,16 @@ export default function ResultCard({
               Contact: {nearestFacility.facility.contact_phone}
             </p>
           ) : null}
+          <p className="text-sm text-fog-gray">
+            Type: {FACILITY_TYPE_LABELS[nearestFacility.facility.facility_type]}
+          </p>
+          <p className="text-sm text-fog-gray">
+            Accepted materials: {nearestFacility.facility.accepted_materials}
+          </p>
+          <p className="text-xs text-slate-amber bg-slate-amber/10 rounded-lg px-2.5 py-1.5 mt-1.5">
+            "Composting facility" alone doesn't imply it accepts food waste. It's important to
+            connect with the facility and/or RIDEM to ensure proper processing.
+          </p>
           <p className="text-sm mt-1 tabular-nums">
             <span className="font-semibold text-harbor-blue">
               {nearestFacility.distanceMiles.toFixed(1)} miles

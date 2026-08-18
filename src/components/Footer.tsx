@@ -17,6 +17,7 @@ export default function Footer() {
         </p>
         <p className="font-semibold text-slate-amber">Facility data last verified: August 2026</p>
         <p className="font-semibold text-slate-amber">Hauler directory last verified: July 2026</p>
+        <p>© Daisiris Santana 2026</p>
       </div>
     </footer>
   );
