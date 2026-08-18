@@ -82,7 +82,9 @@ export default function HaulerDirectory() {
       <div className="bg-surface-white border border-mist-gray rounded-xl p-4 space-y-2">
         <p className="text-sm text-fog-gray">
           This directory lists haulers verified to handle food waste organics in Rhode Island. It
-          is provided as a reference only. This list does not constitute an endorsement.
+          is provided as a reference only. This list does not constitute an endorsement. Unlike
+          the facility list, RIDEM does not license or regulate ordinary solid-waste haulers —
+          this directory reflects independent verification, not a state credential.
         </p>
         <p className="text-sm font-semibold text-slate-amber bg-slate-amber/10 rounded-lg px-3 py-2">
           Contact haulers directly to confirm service area, capacity, and pricing.

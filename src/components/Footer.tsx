@@ -23,6 +23,16 @@ export default function Footer() {
         <p className="font-semibold text-slate-amber">
           Hauler directory last verified: {HAULER_DIRECTORY_VERIFIED}
         </p>
+        <p>
+          Notice outdated or incorrect facility or hauler information?{" "}
+          <a
+            href="mailto:Filomena.DaSilva@dem.ri.gov?subject=RhodeWaste%20Tool%20%E2%80%94%20Facility%2FHauler%20Data%20Correction"
+            className="underline underline-offset-2 hover:text-bay-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bay-blue/50 rounded"
+          >
+            Report it to RIDEM
+          </a>
+          .
+        </p>
         <p>© Daisiris Santana 2026</p>
       </div>
     </footer>

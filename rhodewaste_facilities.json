@@ -7,7 +7,7 @@
     "longitude": -71.57538230408227,
     "contact_name": "Town of New Shoreham",
     "contact_phone": "401-466-2864 or 401-466-3234",
-    "contact_email": "",
+    "contact_email": "Not listed",
     "accepted_materials": "Food waste (putrescibles)",
     "notes": "Small-scale pilot project. Block Island only — accessible by ferry. Will not be nearest facility for mainland entities. Registered under RIDEM's Putrescible Waste Composting Facility Registration (confirmed via RIDEM's Sept 2025 active facilities list)."
   },
@@ -17,9 +17,9 @@
     "address": "50 Radcliffe Ave, Providence, RI 02908",
     "latitude": 41.83867312310967,
     "longitude": -71.43172746171494,
-    "contact_name": "",
+    "contact_name": "Not listed",
     "contact_phone": "401-952-5533",
-    "contact_email": "",
+    "contact_email": "Not listed",
     "accepted_materials": "Food waste (putrescibles)",
     "notes": "Small-scale operation per RIDEM. Verify capacity before presenting as available facility. Registered under RIDEM's Putrescible Waste Composting Facility Registration (confirmed via RIDEM's 2020 and Sept 2025 active facilities lists)."
   },
@@ -67,7 +67,7 @@
     "longitude": -71.52424480405973,
     "contact_name": "Richard Schartner",
     "contact_phone": "401-294-2044",
-    "contact_email": "",
+    "contact_email": "Not listed",
     "accepted_materials": "Leaf/yard waste, putrescibles",
     "notes": "Permit active — renewed 5/16/2023."
   },
@@ -79,7 +79,7 @@
     "longitude": -71.77701837706246,
     "contact_name": "Eli Berkowitz",
     "contact_phone": "401-397-3003 ext 105",
-    "contact_email": "",
+    "contact_email": "Not listed",
     "accepted_materials": "Putrescibles, leaf/yard waste, manure",
     "notes": "Permit issued Sept 2023."
   },
@@ -99,12 +99,12 @@
     "facility_name": "Scobco",
     "facility_type": "agricultural",
     "address": "380 Tripps Corner Road, Exeter, RI 02822",
-    "latitude": 41.55486261474926,
-    "longitude": -71.60112444561715,
+    "latitude": 41.5595823,
+    "longitude": -71.6042722,
     "contact_name": "Gregory Allan",
     "contact_phone": "401-523-6882",
-    "contact_email": "",
+    "contact_email": "Not listed",
     "accepted_materials": "Plant waste, manure, putrescibles",
-    "notes": "Permit issued May 2025. Phone added from the Aug 2026 RIDEM facility data pull — that source itself flags it as not independently verified yet; confirm before relying on it for outreach."
+    "notes": "Permit issued May 2025. Phone added from the Aug 2026 RIDEM facility data pull — that source itself flags it as not independently verified yet; confirm before relying on it for outreach. Coordinates corrected Aug 2026 — the previous lat/lon reverse-geocoded to Sheffield Hill Road, a different street than the listed address; corrected to Nominatim's geocode of 380 Tripps Corner Road."
   }
 ]
