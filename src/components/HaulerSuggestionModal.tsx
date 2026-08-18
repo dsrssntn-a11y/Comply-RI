@@ -46,9 +46,10 @@ export default function HaulerSuggestionModal({
           No facility within reach — but you can still divert
         </p>
         <p className="text-sm text-fog-gray mb-4">
-          State law doesn't require this since no authorized facility is within 15 miles. A hauler
-          can still bridge that distance gap, though, picking up your material and transporting
-          it to one farther away. It's entirely voluntary, but every ton diverted still helps.
+          No authorized facility falls within the statute's 15-mile distance condition for the
+          location entered. A hauler can still transport material to a facility farther away — an
+          entirely voluntary option, and every ton diverted continues to help toward Rhode
+          Island's climate goals.
         </p>
         <div className="flex gap-2">
           <button

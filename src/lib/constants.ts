@@ -13,3 +13,9 @@ export const ENTITY_TYPE_OPTIONS: EntityTypeOption[] = [
 
 export const RI_ZIP_MIN = 2800;
 export const RI_ZIP_MAX = 2940;
+
+// Update these at each quarterly/monthly data recheck (see
+// RhodeWaste_Maintenance_Notes.md "Scheduled Maintenance Checks") — used by
+// both Footer.tsx and the printable result summary in Disclaimer.tsx.
+export const FACILITY_DATA_VERIFIED = "August 2026";
+export const HAULER_DIRECTORY_VERIFIED = "July 2026";

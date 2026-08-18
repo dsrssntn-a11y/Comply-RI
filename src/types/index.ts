@@ -48,6 +48,7 @@ export interface SubmittedCalculatorValues {
   threshold: number;
   complianceStatus: ComplianceStatus;
   nearestFacility: NearestFacilityResult | null;
+  calculatedAt: string;
 }
 
 export interface ZipCentroid {

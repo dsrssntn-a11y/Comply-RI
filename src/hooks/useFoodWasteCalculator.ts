@@ -120,6 +120,7 @@ export function useFoodWasteCalculator() {
       threshold,
       complianceStatus: computeComplianceStatus(tonnage, threshold, facilityWithinRadius),
       nearestFacility,
+      calculatedAt: new Date().toISOString(),
     });
   }
 

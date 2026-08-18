@@ -21,6 +21,7 @@ export default function Hero({ activeTab, onOpenEntityDefinitions }: HeroProps) 
             <>
               <p className="hero-statement">{COPY.heroStatement}</p>
               <p className="civic-trust">{COPY.civicTrustLine}</p>
+              <p className="civic-trust">{COPY.audienceLine}</p>
             </>
           ) : null}
           <p className="text-xs sm:text-sm font-semibold text-slate-amber mt-1">

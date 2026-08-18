@@ -5,7 +5,7 @@ import ImpactCallout from "./ImpactCallout";
 import FacilityMap from "./FacilityMap";
 import HaulerSuggestionModal from "./HaulerSuggestionModal";
 import WaiverNoticeModal from "./WaiverNoticeModal";
-import { formatTons } from "../lib/formatters";
+import { formatCalculatedDate, formatTons } from "../lib/formatters";
 import { FACILITY_SEARCH_RADIUS_MILES } from "../data/facilityRules";
 import type { Facility, SubmittedCalculatorValues } from "../types";
 
@@ -37,6 +37,7 @@ export default function ResultCard({
     originCoordinates,
     locationSource,
     geocodeNotice,
+    calculatedAt,
   } = submitted;
   const withinRadius = complianceStatus === "comply";
   const showFacility = complianceStatus !== "below" && nearestFacility;
@@ -70,6 +71,9 @@ export default function ResultCard({
           <p className="text-[15px] text-harbor-blue">
             {entityLabel} · Zip {submitted.zip} ·{" "}
             <span className="tabular-nums font-semibold">{formatTons(tonnage)}</span> per year
+          </p>
+          <p className="text-xs text-fog-gray mt-0.5">
+            Calculated {formatCalculatedDate(calculatedAt)}
           </p>
         </div>
         <button
@@ -114,17 +118,16 @@ export default function ResultCard({
 
         {complianceStatus === "below" ? (
           <p className="text-sm text-sea-glass bg-sea-glass/10 rounded-lg px-3 py-2">
-            You are not currently required to divert food waste under this law — but any amount
-            you choose to divert from the landfill still helps toward a positive climate impact.
+            Based on the tonnage you entered, this result is below the threshold that would
+            require diversion under this law — but any amount you choose to divert from the
+            landfill still helps toward a positive climate impact.
           </p>
         ) : null}
 
         {complianceStatus === "comply" ? (
           <p className="text-sm text-fog-gray">
             An authorized facility is available within {FACILITY_SEARCH_RADIUS_MILES} miles — see
-            the details below to start diverting food waste there. Facility capacity and
-            operating status can change — confirm directly with the facility before relying on
-            this result, especially for smaller-scale operations.
+            the details below to start diverting food waste there.
           </p>
         ) : null}
 
@@ -192,14 +195,14 @@ export default function ResultCard({
             </p>
           ) : null}
           <p className="text-sm text-fog-gray">
-            Type: {FACILITY_TYPE_LABELS[nearestFacility.facility.facility_type]}
-          </p>
-          <p className="text-sm text-fog-gray">
-            Accepted materials: {nearestFacility.facility.accepted_materials}
+            Type: {FACILITY_TYPE_LABELS[nearestFacility.facility.facility_type]} · Accepted
+            materials: {nearestFacility.facility.accepted_materials}
           </p>
           <p className="text-xs text-slate-amber bg-slate-amber/10 rounded-lg px-2.5 py-1.5 mt-1.5">
-            "Composting facility" alone doesn't imply it accepts food waste. It's important to
-            connect with the facility and/or RIDEM to ensure proper processing.
+            A facility type or materials listing alone doesn't guarantee it currently accepts
+            food waste or has available capacity — operating status can change, especially for
+            smaller-scale operations. Confirm directly with the facility, and with RIDEM if
+            needed, before relying on this result.
           </p>
           <p className="text-sm mt-1 tabular-nums">
             <span className="font-semibold text-harbor-blue">
@@ -238,7 +241,7 @@ export default function ResultCard({
         </div>
       ) : null}
 
-      {complianceStatus === "comply" || complianceStatus === "exempt" ? (
+      {complianceStatus === "comply" || complianceStatus === "exempt" || complianceStatus === "below" ? (
         <div className="border-t border-mist-gray pt-4">
           <p className="text-sm font-bold text-harbor-blue mb-2">What to do next</p>
           <ol className="space-y-2 text-sm text-harbor-blue list-decimal list-inside">
@@ -261,11 +264,11 @@ export default function ResultCard({
                   for verified haulers who can handle pickup for you.
                 </li>
               </>
-            ) : (
+            ) : complianceStatus === "exempt" ? (
               <>
                 <li>
-                  This isn't required, since no authorized facility is within 15 miles — but you
-                  can still divert voluntarily. Browse the{" "}
+                  No authorized facility falls within the statute's 15-mile distance condition
+                  for the location entered — but you can still divert voluntarily. Browse the{" "}
                   <button
                     type="button"
                     onClick={onNavigateToHaulers}
@@ -273,11 +276,31 @@ export default function ResultCard({
                   >
                     Hauler Directory
                   </button>{" "}
-                  for haulers who can bridge that distance gap for you.
+                  for haulers who can transport material to a facility farther away.
                 </li>
                 <li>
                   Re-check this result periodically — your status may change if a new authorized
                   facility opens closer to you.
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  Based on the tonnage you entered, this result is below the{" "}
+                  {formatTons(threshold)} threshold for {entityLabel} — but you can still divert
+                  voluntarily. Browse the{" "}
+                  <button
+                    type="button"
+                    onClick={onNavigateToHaulers}
+                    className="underline underline-offset-2 hover:text-bay-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bay-blue/50 rounded"
+                  >
+                    Hauler Directory
+                  </button>{" "}
+                  for haulers who can help.
+                </li>
+                <li>
+                  Re-check this result if your tonnage grows — you may cross the threshold in a
+                  future year.
                 </li>
               </>
             )}

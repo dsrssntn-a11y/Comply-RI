@@ -1,3 +1,5 @@
+import { FACILITY_DATA_VERIFIED, HAULER_DIRECTORY_VERIFIED } from "../lib/constants";
+
 export default function Footer() {
   return (
     <footer className="print:hidden border-t border-mist-gray mt-auto">
@@ -15,8 +17,12 @@ export default function Footer() {
         <p className="font-semibold text-slate-amber">
           This is an independent project, not officially affiliated with or endorsed by RIDEM.
         </p>
-        <p className="font-semibold text-slate-amber">Facility data last verified: August 2026</p>
-        <p className="font-semibold text-slate-amber">Hauler directory last verified: July 2026</p>
+        <p className="font-semibold text-slate-amber">
+          Facility data last verified: {FACILITY_DATA_VERIFIED}
+        </p>
+        <p className="font-semibold text-slate-amber">
+          Hauler directory last verified: {HAULER_DIRECTORY_VERIFIED}
+        </p>
         <p>© Daisiris Santana 2026</p>
       </div>
     </footer>

@@ -36,6 +36,7 @@ function buildSubmitted(
     threshold: 52,
     complianceStatus: "comply",
     nearestFacility: { facility: FACILITY, distanceMiles: 7.7 },
+    calculatedAt: "2026-08-15T12:00:00.000Z",
     ...overrides,
   };
 }
