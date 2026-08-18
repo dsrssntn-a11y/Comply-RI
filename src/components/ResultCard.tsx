@@ -41,6 +41,7 @@ export default function ResultCard({
   } = submitted;
   const withinRadius = complianceStatus === "comply";
   const showFacility = complianceStatus !== "below" && nearestFacility;
+  const thresholdDelta = Math.abs(tonnage - threshold);
   const waiverEligible =
     complianceStatus === "comply" &&
     (submitted.entityType === "higher_ed" || submitted.entityType === "other");
@@ -111,9 +112,17 @@ export default function ResultCard({
 
         <p className="text-sm text-harbor-blue tabular-nums">
           <span className="font-semibold">{formatTons(tonnage)}</span> entered{" "}
-          {tonnage >= threshold ? "meets or exceeds" : "is below"} the{" "}
+          {tonnage === threshold ? "meets" : tonnage > threshold ? "exceeds" : "is below"} the{" "}
           <span className="font-semibold">{formatTons(threshold)}</span> threshold for{" "}
-          {entityLabel}.
+          {entityLabel}
+          {tonnage === threshold ? (
+            " exactly."
+          ) : (
+            <>
+              {" "}
+              by <span className="font-semibold">{formatTons(thresholdDelta)}</span>.
+            </>
+          )}
         </p>
 
         {complianceStatus === "below" ? (
