@@ -1,4 +1,4 @@
-import { ENTITY_TYPE_OPTIONS } from "../lib/constants";
+import { ENTITY_TYPE_OPTIONS, STATUTE_TEXT_VERIFIED } from "../lib/constants";
 import { ENTITY_THRESHOLDS } from "../data/thresholds";
 import { FACILITY_SEARCH_RADIUS_MILES } from "../data/facilityRules";
 
@@ -150,6 +150,7 @@ export default function HowItWorks({ open, onClose }: HowItWorksProps) {
             § 23-18.9-17
           </a>
         </p>
+        <p className="text-xs mt-1">Statute text last verified by this tool: {STATUTE_TEXT_VERIFIED}.</p>
       </div>
     </div>
   );

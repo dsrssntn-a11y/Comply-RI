@@ -19,3 +19,7 @@ export const RI_ZIP_MAX = 2940;
 // both Footer.tsx and the printable result summary in Disclaimer.tsx.
 export const FACILITY_DATA_VERIFIED = "August 2026";
 export const HAULER_DIRECTORY_VERIFIED = "July 2026";
+
+// Update at the annual statutory-text recheck (see RhodeWaste_Maintenance_Notes.md
+// "Legal Foundation") — used by HowItWorks.tsx and Disclaimer.tsx.
+export const STATUTE_TEXT_VERIFIED = "July 2026";

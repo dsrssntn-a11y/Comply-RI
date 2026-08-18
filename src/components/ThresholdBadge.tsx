@@ -1,9 +1,9 @@
 import type { ComplianceStatus } from "../types";
 
 export const STATUS_LABELS: Record<ComplianceStatus, string> = {
-  below: "Below Threshold",
-  comply: "Above Threshold — Facility Available",
-  exempt: "Above Threshold — No Facility Within 15 Miles",
+  below: "Likely Below Threshold",
+  comply: "Likely Needs a Diversion Arrangement",
+  exempt: "Threshold Met — No Facility In Range",
 };
 
 const STATUS_CONFIG: Record<ComplianceStatus, { label: string; className: string }> = {

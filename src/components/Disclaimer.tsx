@@ -1,4 +1,8 @@
-import { FACILITY_DATA_VERIFIED, HAULER_DIRECTORY_VERIFIED } from "../lib/constants";
+import {
+  FACILITY_DATA_VERIFIED,
+  HAULER_DIRECTORY_VERIFIED,
+  STATUTE_TEXT_VERIFIED,
+} from "../lib/constants";
 
 interface DisclaimerProps {
   variant: "entry" | "output";
@@ -27,7 +31,7 @@ export default function Disclaimer({ variant }: DisclaimerProps) {
     <div className="text-xs text-fog-gray leading-relaxed border-t border-mist-gray pt-3 space-y-2">
       <p className="font-semibold text-slate-amber">
         Facility data verified {FACILITY_DATA_VERIFIED} · Hauler directory verified{" "}
-        {HAULER_DIRECTORY_VERIFIED}
+        {HAULER_DIRECTORY_VERIFIED} · Statute text verified {STATUTE_TEXT_VERIFIED}
       </p>
       <p>
         Facility and hauler data is maintained on a static basis and may not reflect the most
